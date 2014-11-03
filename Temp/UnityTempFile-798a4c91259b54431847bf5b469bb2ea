@@ -49,5 +49,6 @@
 'Assets/Done/Done_Scripts/Done_PlayerController.cs'
 'Assets/Done/Done_Scripts/Done_RandomRotator.cs'
 'Assets/Done/Done_Scripts/Done_WeaponController.cs'
+'Assets/Rotator.cs'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/unity/System.Runtime.Serialization.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/unity/System.Xml.Linq.dll'

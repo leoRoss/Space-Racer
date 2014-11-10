@@ -51,4 +51,6 @@
 'Assets/Rotator.cs'
 'Assets/Scripts/AvatarScript.cs'
 'Assets/Scripts/GenerateEnvironment.cs'
+'Assets/Scripts/ImmediateStateMachine.cs'
 'Assets/Scripts/SplashControl.cs'
+'Assets/SmoothFollow.cs'

@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{A93CB8F5-2DCE-B49E-E798-F178296B5AE9}</ProjectGuid>
+	<ProjectGuid>{4F5CD69C-9D72-E24E-376A-47F4B681DE6D}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,21 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Done\Done_Scripts\Done_BGScroller.cs" />
-     <Compile Include="Assets\Done\Done_Scripts\Done_DestroyByBoundary.cs" />
-     <Compile Include="Assets\Done\Done_Scripts\Done_DestroyByContact.cs" />
-     <Compile Include="Assets\Done\Done_Scripts\Done_DestroyByTime.cs" />
-     <Compile Include="Assets\Done\Done_Scripts\Done_EvasiveManeuver.cs" />
-     <Compile Include="Assets\Done\Done_Scripts\Done_GameController.cs" />
-     <Compile Include="Assets\Done\Done_Scripts\Done_Mover.cs" />
-     <Compile Include="Assets\Done\Done_Scripts\Done_PlayerController.cs" />
-     <Compile Include="Assets\Done\Done_Scripts\Done_RandomRotator.cs" />
-     <Compile Include="Assets\Done\Done_Scripts\Done_WeaponController.cs" />
-     <Compile Include="Assets\Rotator.cs" />
-     <Compile Include="Assets\Scripts\AvatarScript.cs" />
-     <Compile Include="Assets\Scripts\GenerateEnvironment.cs" />
-     <Compile Include="Assets\Scripts\ImmediateStateMachine.cs" />
-     <Compile Include="Assets\Scripts\SplashControl.cs" />
+     <Compile Include="Assets\SmoothFollow.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

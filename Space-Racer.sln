@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{4CD453CF-35EF-BDC6-D4BD-88B4BE375ABA}") = "Space-Racer", "Assembly-CSharp.csproj", "{A93CB8F5-2DCE-B49E-E798-F178296B5AE9}"
 EndProject
+Project("{4CD453CF-35EF-BDC6-D4BD-88B4BE375ABA}") = "Space-Racer", "Assembly-UnityScript.unityproj", "{4F5CD69C-9D72-E24E-376A-47F4B681DE6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,15 @@ Global
 		{A93CB8F5-2DCE-B49E-E798-F178296B5AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A93CB8F5-2DCE-B49E-E798-F178296B5AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A93CB8F5-2DCE-B49E-E798-F178296B5AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F5CD69C-9D72-E24E-376A-47F4B681DE6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F5CD69C-9D72-E24E-376A-47F4B681DE6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F5CD69C-9D72-E24E-376A-47F4B681DE6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F5CD69C-9D72-E24E-376A-47F4B681DE6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-											GlobalSection(MonoDevelopProperties) = preSolution
+																					GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

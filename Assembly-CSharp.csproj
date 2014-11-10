@@ -59,6 +59,7 @@
      <Compile Include="Assets\Rotator.cs" />
      <Compile Include="Assets\Scripts\AvatarScript.cs" />
      <Compile Include="Assets\Scripts\GenerateEnvironment.cs" />
+     <Compile Include="Assets\Scripts\ImmediateStateMachine.cs" />
      <Compile Include="Assets\Scripts\SplashControl.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -14,20 +14,22 @@ public class AvatarScript : MonoBehaviour {
 	private float normalFwdMaxSpeed = 300f;
 	private float normalSidesMaxSpeed = 200f;
 
-	private float boostFwdAccelFactor = 1.3f;
-	private float boostSidesAccelFactor = 1.3f;
-	private float boostFwdMaxSpeedFactor = 1.7f;
-	private float boostSidesMaxSpeedFactor = 1.7f;
+	private float boostFwdAccelFactor = 2.0f;
+	private float boostSidesAccelFactor = 2.0f;
+	private float boostFwdMaxSpeedFactor = 2.0f;
+	private float boostSidesMaxSpeedFactor = 2.0f;
 
-	private float maxBoostSpeed = 30f; //added speed for pick up boost
-	private float boostAddTime = 7f; //each boost adds 7 seconds
+	private float turnDecelPerSecond = 0.05f; //after one second, only 0.05 of you side or up moment are left if you stop pressing button
 
-
-	private float boostAccel = 5f;
+	private float boostTime = 4f; //each boost lasts 4 seconds
+	private int boosts;
 	private float boostTimeLeft;
-
+	
 	private float up;
 	private float side;
+
+	private Quaternion appearanceQuat;
+	private Quaternion movementQuat = Quaternion.identity;
 
 	// Use this for initialization
 	void Start () {
@@ -39,7 +41,9 @@ public class AvatarScript : MonoBehaviour {
 	void resetGame () {
 		moveVector = new Vector3(0,0,0);
 		boostTimeLeft = 0f;
+		boosts = 3;
 		collisionFlags = CollisionFlags.None;
+		appearanceQuat = Quaternion.identity;
 	}
 
 	void GameStart() {
@@ -59,30 +63,73 @@ public class AvatarScript : MonoBehaviour {
 	void enterRUN() {}
 	
 	void updateRUN() {
-		factorVelocityUp (Mathf.Pow(0.05f, Time.deltaTime));
-		factorVelocitySide (Mathf.Pow(0.05f, Time.deltaTime));
+		factorVelocityUp (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
+		factorVelocitySide (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
 		updateVelocityFwdWithMax (normalFwdAccel * Time.deltaTime, normalFwdMaxSpeed);
 		updateVelocitySideWithMax (side * normalSidesAccel * Time.deltaTime, normalSidesMaxSpeed);
 		updateVelocityUpWithMax (up * normalSidesAccel * Time.deltaTime, normalSidesMaxSpeed);
+
+		if (Input.GetKeyDown(KeyCode.B)) {
+			switchToBoostFSM();
+		}
 	}
 	
 	void exitRUN () {}
+
+
+	void switchToBoostFSM() {
+		stateMachine.ChangeState (enterBOOST, updateBOOST, exitBOOST);
+	}
+	
+	void enterBOOST() {
+		boostTimeLeft += boostTime;
+	}
+	
+	void updateBOOST() {
+		factorVelocityUp (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
+		factorVelocitySide (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
+		updateVelocityFwdWithMax (normalFwdAccel * Time.deltaTime * boostFwdAccelFactor, normalFwdMaxSpeed * boostFwdMaxSpeedFactor);
+		updateVelocitySideWithMax (side * normalSidesAccel * Time.deltaTime * boostSidesAccelFactor, normalSidesMaxSpeed * boostSidesMaxSpeedFactor);
+		updateVelocityUpWithMax (up * normalSidesAccel * Time.deltaTime * boostSidesAccelFactor, normalSidesMaxSpeed * boostSidesMaxSpeedFactor);
+	}
+	
+	void exitBOOST () {}
 
 
 
 
 	// Update is called once per frame
 	void Update () {
+
+		applyMovementQuat (); //this assures any movment computed is relative to the identity Quaternion
+
 		up = Input.GetAxis ("Vertical");
 		side = Input.GetAxis ("Horizontal");
 
 		stateMachine.Execute();
 
 		collisionFlags = controller.Move(transform.InverseTransformDirection(moveVector) * Time.deltaTime);
+
+		setAppearanceQuat (moveVector.x, moveVector.y);
+		applyAppearanceQuat (); //now that we have safely moved, lets change to our appearance Quaternion for special effects (tilting)
 	}
 
 
 	//HELPER METHODS
+
+	//TRANSFORMS
+	void applyMovementQuat () {
+		transform.rotation = movementQuat;
+	}
+
+	void applyAppearanceQuat () {
+		transform.rotation = appearanceQuat;
+	}
+
+	void setAppearanceQuat (float x, float y) {
+		appearanceQuat = Quaternion.Euler(new Vector3(y*-0.17f,0f,x*-0.17f));
+	}
+
 
 	//SIDE
 	void updateVelocitySideWithMax (float xVec, float max) {

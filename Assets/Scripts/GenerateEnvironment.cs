@@ -6,9 +6,10 @@ public class GenerateEnvironment : MonoBehaviour {
 	public GameObject astPrefab;
 	// Use this for initialization
 	void Start () {
-				makeAstroidTunnel ();
-				makeAstroidLine ();
-		}
+		makeAstroidTunnel ();
+		makeAstroidLine ();
+	}
+
 	void makeAstroidTunnel(){
 		for (int z = 0; z<10000; z+=200) {
 			makeAstroidRing(0f, 0f, z, 600f, 25);

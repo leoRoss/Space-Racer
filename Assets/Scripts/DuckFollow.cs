@@ -3,8 +3,8 @@ using System.Collections;
 
 public class DuckFollow : MonoBehaviour {
 	public GameObject player;
-	Vector3 relativeCamPos = new Vector3(0f,1f,-2f);
-	Vector3 lookAtVector = new Vector3(0f,0f,0f);
+	Vector3 relativeCamPos = new Vector3(0f,0.8f,-1.6f);
+	Vector3 lookAtVector = new Vector3(0f,0f,0.5f);
 	Vector3 [] playerPos;
 	Vector3 [] camPos;
 	

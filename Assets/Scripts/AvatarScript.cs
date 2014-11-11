@@ -14,14 +14,15 @@ public class AvatarScript : MonoBehaviour {
 	private float normalFwdMaxSpeed = 300f;
 	private float normalSidesMaxSpeed = 200f;
 
-	private float boostFwdAccelFactor = 2.0f;
+	private float boostFwdAccelFactor = 6.0f;
 	private float boostSidesAccelFactor = 2.0f;
-	private float boostFwdMaxSpeedFactor = 2.0f;
+	private float boostFwdMaxSpeedFactor = 3.0f;
 	private float boostSidesMaxSpeedFactor = 2.0f;
 
 	private float turnDecelPerSecond = 0.05f; //after one second, only 0.05 of you side or up moment are left if you stop pressing button
+	private float naturalDecelFromBoostPerSecond = 0.3f;
 
-	private float boostTime = 4f; //each boost lasts 4 seconds
+	private float boostTime = 3.2f; //each boost lasts 3.2 seconds
 	private int boosts;
 	private float boostTimeLeft;
 	
@@ -149,9 +150,11 @@ public class AvatarScript : MonoBehaviour {
 
 	//SIDE
 	void updateVelocitySideWithMax (float xVec, float max) {
-		moveVector.x += xVec;
 		if (Mathf.Abs (moveVector.x) > max) {
-			moveVector.x = Mathf.Sign(moveVector.x)*max;
+			moveVector.x = moveVector.x*Mathf.Pow(naturalDecelFromBoostPerSecond, Time.deltaTime);
+		}
+		else {
+			moveVector.x += xVec;
 		}
 	}
 
@@ -168,9 +171,11 @@ public class AvatarScript : MonoBehaviour {
 
 	//UP
 	void updateVelocityUpWithMax (float yVec, float max) {
-		moveVector.y += yVec;
 		if (Mathf.Abs (moveVector.y) > max) {
-			moveVector.y = Mathf.Sign(moveVector.y)*max;
+			moveVector.y = moveVector.y*Mathf.Pow(naturalDecelFromBoostPerSecond, Time.deltaTime);
+		}
+		else {
+			moveVector.y += yVec;
 		}
 	}
 
@@ -187,9 +192,11 @@ public class AvatarScript : MonoBehaviour {
 
 	//FWD
 	void updateVelocityFwdWithMax (float zVec, float max) {
-		moveVector.z += zVec;
 		if (Mathf.Abs (moveVector.z) > max) {
-			moveVector.z = Mathf.Sign(moveVector.z)*max;
+			moveVector.z = moveVector.z*Mathf.Pow(naturalDecelFromBoostPerSecond, Time.deltaTime);
+		}
+		else {
+			moveVector.z += zVec;
 		}
 	}
 

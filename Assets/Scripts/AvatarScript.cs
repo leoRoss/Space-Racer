@@ -69,31 +69,47 @@ public class AvatarScript : MonoBehaviour {
 		updateVelocitySideWithMax (side * normalSidesAccel * Time.deltaTime, normalSidesMaxSpeed);
 		updateVelocityUpWithMax (up * normalSidesAccel * Time.deltaTime, normalSidesMaxSpeed);
 
-		if (Input.GetKeyDown(KeyCode.B)) {
+		if (Input.GetKeyDown(KeyCode.B) ) {
+			triggerBoostRequest();
+		}
+
+		if (boostTimeLeft > 0) {
 			switchToBoostFSM();
 		}
 	}
 	
 	void exitRUN () {}
 
+	void triggerBoostRequest() {
+		if (boosts>0) {
+			boostTimeLeft+=boostTime;
+			boosts--;
+		}
+	}
 
 	void switchToBoostFSM() {
 		stateMachine.ChangeState (enterBOOST, updateBOOST, exitBOOST);
 	}
 	
 	void enterBOOST() {
-		boostTimeLeft += boostTime;
 	}
 	
 	void updateBOOST() {
+
 		factorVelocityUp (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
 		factorVelocitySide (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
 		updateVelocityFwdWithMax (normalFwdAccel * Time.deltaTime * boostFwdAccelFactor, normalFwdMaxSpeed * boostFwdMaxSpeedFactor);
 		updateVelocitySideWithMax (side * normalSidesAccel * Time.deltaTime * boostSidesAccelFactor, normalSidesMaxSpeed * boostSidesMaxSpeedFactor);
 		updateVelocityUpWithMax (up * normalSidesAccel * Time.deltaTime * boostSidesAccelFactor, normalSidesMaxSpeed * boostSidesMaxSpeedFactor);
+		boostTimeLeft -= Time.deltaTime;
+		if (boostTimeLeft <= 0) {
+			switchToRunFSM();
+		}
 	}
 	
-	void exitBOOST () {}
+	void exitBOOST () {
+		boostTimeLeft = 0;
+	}
 
 
 

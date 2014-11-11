@@ -58,6 +58,7 @@
      <Compile Include="Assets\Done\Done_Scripts\Done_WeaponController.cs" />
      <Compile Include="Assets\Rotator.cs" />
      <Compile Include="Assets\Scripts\AvatarScript.cs" />
+     <Compile Include="Assets\Scripts\DuckFollow.cs" />
      <Compile Include="Assets\Scripts\GenerateEnvironment.cs" />
      <Compile Include="Assets\Scripts\ImmediateStateMachine.cs" />
      <Compile Include="Assets\Scripts\SplashControl.cs" />

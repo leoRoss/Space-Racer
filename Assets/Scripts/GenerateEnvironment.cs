@@ -18,14 +18,14 @@ public class GenerateEnvironment : MonoBehaviour {
 	//	2. move the current point to next and next to nextnext
 	//	3. generate nextnext
 
-	List<GameObject> currentField;
-	List<GameObject> nextField;
-	List<GameObject> nextNextField;
+	List<GameObject>[] rings;
+	int numberOfRings = 13;
+	float rockSize = 200f;
+	float ringDist = 320f;
+	float ringRadius= 700f;
+	int numberPerRing = 20;
+
 	float currentStart;
-	float fieldDist = 1500f;
-	float ringDensity = 200f;
-	float ringRadius= 600f;
-	int numberPerRing = 25;
 
 	// Use this for initialization
 	void Start () {
@@ -36,38 +36,45 @@ public class GenerateEnvironment : MonoBehaviour {
 		makeAstroidLine (); //just for now
 		//updateMyVariables ();
 		//the above must happen b4 anything else
-		currentField = new List<GameObject> ();
-		nextField = new List<GameObject> ();
-		nextNextField = new List<GameObject> ();
-		genAllFields (0f);
+		setUpRings ();
+		genAllRings (0f);
 
+	}
+
+	public void setUpRings() {
+		rings = new List<GameObject> [numberOfRings];
+		for (int i=0; i<rings.Length; i++) {
+			rings[i] = new List<GameObject> ();
+		}
 	}
 
 	public void EndGame() {
 		destroyAll();
 	}
 
-	void genAllFields (float z){
+	void genAllRings (float z){
 		currentStart = z;
-		makeAstroidTunnel (z, z+fieldDist, ringDensity, currentField);
-		makeAstroidTunnel (z+fieldDist, z+fieldDist*2, ringDensity, nextField);
-		makeAstroidTunnel (z+fieldDist*2, z+fieldDist*3, ringDensity, nextNextField);
+		for (int i=0; i<rings.Length; i++) {
+			makeAstroidRing (0f, 0f, currentStart+ringDist*i, ringRadius, numberPerRing, rings[i]);
+		}
 	}
 
 	void genNextField () {
-		currentStart += fieldDist;
-		destroyList (currentField);
-		currentField = nextField;
-		nextField = nextNextField;
-		nextNextField = new List<GameObject> ();
-		makeAstroidTunnel (currentStart+fieldDist*2, currentStart+fieldDist*3, ringDensity, nextNextField);
+		currentStart += ringDist;
+		destroyList (rings[0]);
+		int len = rings.Length;
+		for (int i=0; i<len-1; i++) {
+			rings[i]=rings[i+1];
+		}
+		rings[len-1] = new List<GameObject> ();
+		makeAstroidRing (0f, 0f, currentStart+ringDist*(len-1), ringRadius, numberPerRing, rings[len-1]);
 	}
 
-	void makeAstroidTunnel(float zstart, float zend, float rDensity, List<GameObject> list){
-		for (float z = zstart; z<zend; z+=rDensity) {
-			makeAstroidRing(0f, 0f, z, ringRadius, numberPerRing, list);
-		}
-	}
+//	void makeAstroidTunnel(float zstart, float zend, float rDensity, List<GameObject> list){
+//		for (float z = zstart; z<zend; z+=rDensity) {
+//			makeAstroidRing(0f, 0f, z, ringRadius, numberPerRing, list);
+//		}
+//	}
 
 	void makeAstroidRing(float x, float y, float z, float radius, int num, List<GameObject> list){
 		Vector3 center = new Vector3 (x, y, z);
@@ -76,15 +83,15 @@ public class GenerateEnvironment : MonoBehaviour {
 			myCenter.x+= Mathf.Sin(theta)*radius;
 			myCenter.y+= Mathf.Cos(theta)*radius;
 			GameObject a = Instantiate (astPrefab, myCenter, Quaternion.identity) as GameObject;
-			a.transform.localScale = new Vector3(90f,90f,90f);
+			a.transform.localScale = new Vector3(rockSize,rockSize,rockSize);
 			list.Add(a);
 		}
 	}
 
 	void destroyAll() {
-		destroyList(nextField);
-		destroyList(nextNextField);
-		destroyList(currentField);
+		for (int i=0; i<rings.Length; i++) {
+			destroyList(rings[i]);
+		}
 	}
 
 	void destroyList(List<GameObject> list) {
@@ -96,7 +103,7 @@ public class GenerateEnvironment : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		updateMyVariables ();
-		if (avatarZPos > currentStart + fieldDist) {
+		if (avatarZPos > currentStart + ringDist) {
 			genNextField();
 		}
 	}

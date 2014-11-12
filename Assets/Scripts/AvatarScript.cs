@@ -11,15 +11,15 @@ public class AvatarScript : MonoBehaviour {
 	private ImmediateStateMachine stateMachine = new ImmediateStateMachine ();
 	private CollisionFlags collisionFlags;
 
-	private float normalFwdAccel = 80f;
-	private float normalSidesAccel = 500f;
-	private float normalFwdMaxSpeed = 300f;
-	private float normalSidesMaxSpeed = 200f;
+	private float normalFwdAccel = 250f;
+	private float normalSidesAccel = 700f;
+	private float normalFwdMaxSpeed = 750f;
+	private float normalSidesMaxSpeed = 300f;
 
 	private float boostFwdAccelFactor = 6.0f;
 	private float boostSidesAccelFactor = 2.0f;
-	private float boostFwdMaxSpeedFactor = 3.0f;
-	private float boostSidesMaxSpeedFactor = 2.0f;
+	private float boostFwdMaxSpeedFactor = 1.5f;
+	private float boostSidesMaxSpeedFactor = 1.3f;
 
 	private float turnDecelPerSecond = 0.05f; //after one second, only 0.05 of you side or up moment are left if you stop pressing button
 	private float naturalDecelFromBoostPerSecond = 0.3f;
@@ -129,6 +129,28 @@ public class AvatarScript : MonoBehaviour {
 		applyAppearanceQuat (); //now that we have safely moved, lets change to our appearance Quaternion for special effects (tilting)
 	}
 	
+
+
+
+	public void AvatarCollidedWithStrongAstroid (){
+		moveVector.z = moveVector.z * 0.2f;
+		moveVector.y = moveVector.y*-1.0f;
+		moveVector.x = moveVector.x*-1.2f; 
+		moveTowardsCenter ();	
+	}
+
+	public void moveTowardsCenter () {
+		Vector3 temp = transform.position;
+		temp.x = temp.x * 0.95f;
+		temp.y = temp.y * 0.95f;
+		transform.position = temp;
+	}
+
+	public void AvatarCollidedWithWeakAstroid (){
+		moveVector.z = moveVector.z*0.5f; //slow down, keep going
+	}
+
+
 
 	//TRANSFORMS
 	void applyMovementQuat () {

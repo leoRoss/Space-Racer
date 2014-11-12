@@ -69,8 +69,15 @@ public class GameLogic : MonoBehaviour {
 		genEnv.EndGame ();
 	}
 
-	//AvatarScript will triger this fun when appropriate
-	void AvatarCollidedWithAstroid() {
+	//Asteroids will triger this when appropriate
+	public void AvatarCollidedWithStrongAstroid() {
+		avatarScript.AvatarCollidedWithStrongAstroid ();
+		//TODO
+	}
+
+	//Asteroids will triger this fun when appropriate
+	public void AvatarCollidedWithWeakAstroid() {
+		avatarScript.AvatarCollidedWithWeakAstroid ();
 		//TODO
 	}
 

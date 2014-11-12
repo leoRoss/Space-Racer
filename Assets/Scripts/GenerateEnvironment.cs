@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class GenerateEnvironment : MonoBehaviour {
 	
-	public GameObject astPrefab;
+	public GameObject strongPrefab1;
+	public GameObject weakPrefab1;
 	AvatarScript avatarScript;
 	public float avatarZPos;
 
@@ -70,19 +71,13 @@ public class GenerateEnvironment : MonoBehaviour {
 		makeAstroidRing (0f, 0f, currentStart+ringDist*(len-1), ringRadius, numberPerRing, rings[len-1]);
 	}
 
-//	void makeAstroidTunnel(float zstart, float zend, float rDensity, List<GameObject> list){
-//		for (float z = zstart; z<zend; z+=rDensity) {
-//			makeAstroidRing(0f, 0f, z, ringRadius, numberPerRing, list);
-//		}
-//	}
-
 	void makeAstroidRing(float x, float y, float z, float radius, int num, List<GameObject> list){
 		Vector3 center = new Vector3 (x, y, z);
 		for (float theta = 0f; theta<2*Mathf.PI; theta+= Mathf.PI*2/num) {
 			Vector3 myCenter = center;
 			myCenter.x+= Mathf.Sin(theta)*radius;
 			myCenter.y+= Mathf.Cos(theta)*radius;
-			GameObject a = Instantiate (astPrefab, myCenter, Quaternion.identity) as GameObject;
+			GameObject a = Instantiate (strongPrefab1, myCenter, Quaternion.identity) as GameObject;
 			a.transform.localScale = new Vector3(rockSize,rockSize,rockSize);
 			list.Add(a);
 		}
@@ -115,7 +110,7 @@ public class GenerateEnvironment : MonoBehaviour {
 	// TEMP
 	void makeAstroidLine(){
 		for (int z = 0; z<10000; z+=50) {
-			GameObject a = Instantiate (astPrefab, new Vector3(0f,30f,z), Quaternion.identity) as GameObject;
+			GameObject a = Instantiate (weakPrefab1, new Vector3(0f,30f,z), Quaternion.identity) as GameObject;
 			a.transform.localScale = new Vector3(10f,10f,10f);
 		}
 	}

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof (CharacterController))]
+
 public class AvatarScript : MonoBehaviour {
 
 	private CharacterController controller;
@@ -25,6 +27,7 @@ public class AvatarScript : MonoBehaviour {
 	private float boostTime = 3.2f; //each boost lasts 3.2 seconds
 	private int boosts;
 	private float boostTimeLeft;
+	private int bullets;
 	
 	private float up;
 	private float side;
@@ -32,31 +35,33 @@ public class AvatarScript : MonoBehaviour {
 	private Quaternion appearanceQuat;
 	private Quaternion movementQuat = Quaternion.identity;
 
+	GameLogic gameLogicScript;
+	GenerateEnvironment genEnv;
+
 	// Use this for initialization
 	void Start () {
+		gameLogicScript = GameObject.Find ("GameLogic").GetComponent<GameLogic> ();
+		genEnv = GameObject.Find ("EnvironmentGenerator").GetComponent<GenerateEnvironment> ();
 		controller = gameObject.GetComponent<CharacterController>();
-		resetGame ();
-		GameStart ();
 	}
 
-	void resetGame () {
+	public void StartGame() {
+		resetGameVariables ();
+		switchToRunFSM ();
+	}
+
+	void resetGameVariables () {
 		moveVector = new Vector3(0,0,0);
 		boostTimeLeft = 0f;
 		boosts = 3;
+		bullets = 0;
 		collisionFlags = CollisionFlags.None;
 		appearanceQuat = Quaternion.identity;
-	}
-
-	void GameStart() {
-		switchToRunFSM ();
+		transform.position = new Vector3 (0f, 0f, 0f);
 	}
 	
-	void GameOver() {
-		resetGame ();
-	}
-
-
-
+	public void EndGame() {}
+		
 	void switchToRunFSM() {
 		stateMachine.ChangeState (enterRUN, updateRUN, exitRUN);
 	}
@@ -80,13 +85,7 @@ public class AvatarScript : MonoBehaviour {
 	}
 	
 	void exitRUN () {}
-
-	void triggerBoostRequest() {
-		if (boosts>0) {
-			boostTimeLeft+=boostTime;
-			boosts--;
-		}
-	}
+	
 
 	void switchToBoostFSM() {
 		stateMachine.ChangeState (enterBOOST, updateBOOST, exitBOOST);
@@ -117,7 +116,6 @@ public class AvatarScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
 		applyMovementQuat (); //this assures any movment computed is relative to the identity Quaternion
 
 		up = Input.GetAxis ("Vertical");
@@ -130,9 +128,7 @@ public class AvatarScript : MonoBehaviour {
 		setAppearanceQuat (moveVector.x, moveVector.y);
 		applyAppearanceQuat (); //now that we have safely moved, lets change to our appearance Quaternion for special effects (tilting)
 	}
-
-
-	//HELPER METHODS
+	
 
 	//TRANSFORMS
 	void applyMovementQuat () {
@@ -151,11 +147,10 @@ public class AvatarScript : MonoBehaviour {
 	//SIDE
 	void updateVelocitySideWithMax (float xVec, float max) {
 		if (Mathf.Abs (moveVector.x) > max) {
-			moveVector.x = moveVector.x*Mathf.Pow(naturalDecelFromBoostPerSecond, Time.deltaTime);
-		}
-		else {
-			moveVector.x += xVec;
-		}
+			moveVector.x = moveVector.x * Mathf.Pow (naturalDecelFromBoostPerSecond, Time.deltaTime);
+		} else if (Mathf.Abs (moveVector.x) < max) {
+			moveVector.x = Mathf.Min(moveVector.x+xVec,max);
+		} 
 	}
 
 	void updateVelocitySideWithMin (float xVec, float min) {
@@ -172,11 +167,10 @@ public class AvatarScript : MonoBehaviour {
 	//UP
 	void updateVelocityUpWithMax (float yVec, float max) {
 		if (Mathf.Abs (moveVector.y) > max) {
-			moveVector.y = moveVector.y*Mathf.Pow(naturalDecelFromBoostPerSecond, Time.deltaTime);
-		}
-		else {
-			moveVector.y += yVec;
-		}
+			moveVector.y = moveVector.y * Mathf.Pow (naturalDecelFromBoostPerSecond, Time.deltaTime);
+		} else if (Mathf.Abs (moveVector.y) < max) {
+			moveVector.y = Mathf.Min(moveVector.y+yVec,max);
+		} 
 	}
 
 	void updateVelocityUpWithMin (float yVec, float min) {
@@ -193,11 +187,10 @@ public class AvatarScript : MonoBehaviour {
 	//FWD
 	void updateVelocityFwdWithMax (float zVec, float max) {
 		if (Mathf.Abs (moveVector.z) > max) {
-			moveVector.z = moveVector.z*Mathf.Pow(naturalDecelFromBoostPerSecond, Time.deltaTime);
-		}
-		else {
-			moveVector.z += zVec;
-		}
+			moveVector.z = moveVector.z * Mathf.Pow (naturalDecelFromBoostPerSecond, Time.deltaTime);
+		} else if (Mathf.Abs (moveVector.z) < max) {
+			moveVector.z = Mathf.Min(moveVector.z+zVec,max);
+		} 
 	}
 
 	void updateVelocityFwdWithMin (float zVec, float min) {
@@ -210,4 +203,30 @@ public class AvatarScript : MonoBehaviour {
 	void factorVelocityFwd (float factor) {
 		moveVector.z = moveVector.z * factor;
 	}
+
+
+
+	//KEITHS PLAY BOX
+
+	//when i press B
+	void triggerBoostRequest() {
+		if (boosts>0) {
+			boostTimeLeft+=boostTime;
+			boosts--;
+		}
+	}
+	
+	//when I hit a free boost ring
+	void addFreeBoostTime () {
+		boostTimeLeft += boostTime;
+	}
+
+
+
+
+	//GETTERS
+	public int getBoosts () {return boosts;}
+	public float getBoostTimeLeft () {return boostTimeLeft;}
+	public int getBullets () {return bullets;}
+	public float getZPos () {return transform.position.z; }
 }

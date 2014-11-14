@@ -21,10 +21,13 @@ public class GenerateEnvironment : MonoBehaviour {
 
 	List<GameObject>[] rings;
 	int numberOfRings = 13;
-	float rockSize = 200f;
+	float boundRockSize = 200f;
+	float obstRockSize = 25f;
 	float ringDist = 320f;
 	float ringRadius= 700f;
 	int numberPerRing = 20;
+	float obstSpace = 100f; // Vertical/horizontal space between asteroid objects
+	float noiseThresh = 0.55f; // Perlin noise value must be greater than this for an asteroid to be placed at that point
 
 	float currentStart;
 
@@ -34,11 +37,12 @@ public class GenerateEnvironment : MonoBehaviour {
 	}
 
 	public void StartGame () {
-		makeAstroidLine (); //just for now
+		//makeAstroidLine (); //just for now
 		//updateMyVariables ();
 		//the above must happen b4 anything else
 		setUpRings ();
 		genAllRings (0f);
+		//makeAsteroidField (0f, 0f, 3200f, ringRadius, rings [10]);
 
 	}
 
@@ -78,8 +82,26 @@ public class GenerateEnvironment : MonoBehaviour {
 			myCenter.x+= Mathf.Sin(theta)*radius;
 			myCenter.y+= Mathf.Cos(theta)*radius;
 			GameObject a = Instantiate (strongPrefab1, myCenter, Quaternion.identity) as GameObject;
-			a.transform.localScale = new Vector3(rockSize,rockSize,rockSize);
+			a.transform.localScale = new Vector3(boundRockSize,boundRockSize,boundRockSize);
 			list.Add(a);
+		}
+
+		makeAsteroidField(x, y, z, radius, list);
+	}
+
+	void makeAsteroidField(float x, float y, float z, float radius, List<GameObject> list) {
+		for (float hor = x - radius; hor < x + radius; hor += obstSpace) {
+			for (float ver = y - radius; ver < y + radius; ver += obstSpace) {
+				float randSeed = Random.Range (-1.0f, 1.0f); // So that we use a different spot on the perlin noise plane for each ring
+				float noise = Mathf.PerlinNoise((hor + radius)/(radius) + randSeed, (ver + radius)/(radius) + randSeed);
+				float offset = Random.Range (-1.0f*obstSpace, obstSpace); // So that asteroids don't line up like a grid
+				//Debug.Log (noise);
+				if (noise > noiseThresh) {
+					GameObject a = Instantiate (weakPrefab1, new Vector3(hor + offset, ver + offset, z), Quaternion.identity) as GameObject;
+					a.transform.localScale = new Vector3(obstRockSize, obstRockSize, obstRockSize);
+					list.Add(a);
+				}
+			}
 		}
 	}
 
@@ -109,9 +131,13 @@ public class GenerateEnvironment : MonoBehaviour {
 
 	// TEMP
 	void makeAstroidLine(){
+		for (float x = -1*ringRadius; x < ringRadius; x+=100) {
+			GameObject a = Instantiate (weakPrefab1, new Vector3(x, 30f, 3200f), Quaternion.identity) as GameObject;
+			a.transform.localScale = new Vector3(10f, 10f, 10f);
+		}
 		for (int z = 0; z<10000; z+=50) {
-			GameObject a = Instantiate (weakPrefab1, new Vector3(0f,30f,z), Quaternion.identity) as GameObject;
-			a.transform.localScale = new Vector3(10f,10f,10f);
+			//GameObject a = Instantiate (weakPrefab1, new Vector3(0f,30f,z), Quaternion.identity) as GameObject;
+			//a.transform.localScale = new Vector3(10f,10f,10f);
 		}
 	}
 }

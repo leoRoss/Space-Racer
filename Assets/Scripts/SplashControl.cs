@@ -2,6 +2,13 @@
 using System.Collections;
 
 public class SplashControl : MonoBehaviour {
+
+	public GUIText highScore;
+
+	void Start () {
+		highScore.text = ""  + GameLogic.highScore;
+		}
+	
 	void OnMouseEnter() {
 		renderer.material.color = Color.red;
 	}

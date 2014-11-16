@@ -24,7 +24,8 @@ public class AvatarScript : MonoBehaviour {
 	private float turnDecelPerSecond = 0.05f; //after one second, only 0.05 of you side or up moment are left if you stop pressing button
 	private float naturalDecelFromBoostPerSecond = 0.3f;
 
-	private float boostTime = 3.2f; //each boost lasts 3.2 seconds
+	public static float boostTime = 3.2f; //each boost lasts 3.2 seconds
+
 	private int boosts;
 	private float boostTimeLeft;
 	private int bullets;

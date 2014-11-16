@@ -1,9 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/AvatarScript.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GameLogic.cs">
     <Files>
-      <File FileName="Assets/Scripts/AvatarScript.cs" Line="25" Column="56" />
+      <File FileName="Assets/Scripts/AvatarScript.cs" Line="6" Column="44" />
       <File FileName="Assets/Scripts/DuckFollow.cs" Line="6" Column="51" />
+      <File FileName="Assets/GameLogic.cs" Line="7" Column="1" />
+      <File FileName="../Documents/Fall 2014/CS 4455/Projects/Tinkle Trials/Assets/Scripts/GUIManager.cs" Line="76" Column="67" />
+      <File FileName="../Documents/Fall 2014/CS 4455/Projects/Tinkle Trials/Assets/Scripts/AvatarScript.cs" Line="410" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

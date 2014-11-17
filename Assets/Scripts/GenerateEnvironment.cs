@@ -22,11 +22,11 @@ public class GenerateEnvironment : MonoBehaviour {
 	List<GameObject>[] rings;
 	int numberOfRings = 13;
 	float boundRockSize = 200f;
-	float obstRockSize = 25f;
+	float obstRockSize = 200f;
 	float ringDist = 320f;
 	float ringRadius= 700f;
 	int numberPerRing = 20;
-	float obstSpace = 100f; // Vertical/horizontal space between asteroid objects
+	float obstSpace = 350f; // Vertical/horizontal space between asteroid objects
 	float noiseThresh = 0.55f; // Perlin noise value must be greater than this for an asteroid to be placed at that point
 
 	float currentStart;

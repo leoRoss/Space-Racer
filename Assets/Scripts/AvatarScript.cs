@@ -61,7 +61,9 @@ public class AvatarScript : MonoBehaviour {
 		transform.position = new Vector3 (0f, 0f, 0f);
 	}
 	
-	public void EndGame() {}
+	public void EndGame() {
+		resetGameVariables ();
+	}
 		
 	void switchToRunFSM() {
 		stateMachine.ChangeState (enterRUN, updateRUN, exitRUN);

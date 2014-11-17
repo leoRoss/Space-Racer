@@ -254,4 +254,5 @@ public class AvatarScript : MonoBehaviour {
 	public float getBoostTimeLeft () {return boostTimeLeft;}
 	public int getBullets () {return bullets;}
 	public float getZPos () {return transform.position.z; }
+	public Vector3 getPos () {return transform.position; }
 }

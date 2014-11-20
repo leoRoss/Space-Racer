@@ -7,7 +7,9 @@ public class GenerateEnvironment : MonoBehaviour {
 	public GameObject strongPrefab1;
 	public GameObject weakPrefab1;
 	AvatarScript avatarScript;
+	public GameLogic gameLogic;
 	public float avatarZPos;
+	public GameObject wall;
 
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//    >> 
@@ -30,6 +32,7 @@ public class GenerateEnvironment : MonoBehaviour {
 	float noiseThresh = 0.55f; // Perlin noise value must be greater than this for an asteroid to be placed at that point
 
 	float currentStart;
+	float wallLength;
 
 	// Use this for initialization
 	void Start () {
@@ -42,6 +45,7 @@ public class GenerateEnvironment : MonoBehaviour {
 		//the above must happen b4 anything else
 		setUpRings ();
 		genAllRings (0f);
+		Debug.Log ("course length" + gameLogic.courseLength);
 		//makeAsteroidField (0f, 0f, 3200f, ringRadius, rings [10]);
 
 	}
@@ -52,6 +56,17 @@ public class GenerateEnvironment : MonoBehaviour {
 			rings[i] = new List<GameObject> ();
 		}
 	}
+
+	/*void makeWalls(float zStart) {
+		Vector3 center = new Vector3 (0f, 0f, zStart);
+		for (int i=0; i<8; i++) {
+			Vector3 myCenter = center;
+			myCenter.x+= Mathf.Sin(theta)*radius;
+			myCenter.y+= Mathf.Cos(theta)*radius;
+			float angle = i*45;
+			GameObject w = Instantiate (wall, 
+		}
+	}*/
 
 	public void EndGame() {
 		destroyAll();
@@ -81,12 +96,13 @@ public class GenerateEnvironment : MonoBehaviour {
 			Vector3 myCenter = center;
 			myCenter.x+= Mathf.Sin(theta)*radius;
 			myCenter.y+= Mathf.Cos(theta)*radius;
-			GameObject a = Instantiate (strongPrefab1, myCenter, Quaternion.identity) as GameObject;
-			a.transform.localScale = new Vector3(boundRockSize,boundRockSize,boundRockSize);
-			list.Add(a);
+			//GameObject a = Instantiate (strongPrefab1, myCenter, Quaternion.identity) as GameObject;
+			//a.transform.localScale = new Vector3(boundRockSize,boundRockSize,boundRockSize);
+			//list.Add(a);
 		}
-
-		makeAsteroidField(x, y, z, radius, list);
+		if (z <= gameLogic.courseLength) {
+				makeAsteroidField (x, y, z, radius, list);
+		}
 	}
 
 	void makeAsteroidField(float x, float y, float z, float radius, List<GameObject> list) {

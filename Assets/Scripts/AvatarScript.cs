@@ -50,6 +50,7 @@ public class AvatarScript : MonoBehaviour {
 		genEnv = GameObject.Find ("EnvironmentGenerator").GetComponent<GenerateEnvironment> ();
 		controller = gameObject.GetComponent<CharacterController>();
 		spaceBack = GameObject.Find ("Space");
+		spaceBack.transform.localScale = new Vector3 (300f, 1f, 300f);
 	}
 	
 	public void StartGame() {
@@ -78,15 +79,6 @@ public class AvatarScript : MonoBehaviour {
 	void enterRUN() {}
 	
 	void updateRUN() {
-		
-		//		factorVelocityUp (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
-		//		if (Mathf.Abs(side)<0.1f) {
-		//			factorVelocitySide (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
-		//		}
-		//		updateVelocityFwdWithMax (normalFwdAccel * Time.deltaTime, normalFwdMaxSpeed);
-		//		updateVelocitySideWithMax (side * normalSidesAccel * Time.deltaTime, normalSidesMaxSpeed);
-		//		updateVelocityUpWithMax (up * normalSidesAccel * Time.deltaTime, normalSidesMaxSpeed);
-		
 		updateMotion(normalFwdAccel, normalSideAccel, normalUpAccel, 
 		             naturalDecelFromBoostPerSecond, turnDecelPerSecond, turnDecelPerSecond,
 		             normalFwdMaxSpeed,  normalSidesMaxSpeed, normalSidesMaxSpeed);
@@ -115,12 +107,6 @@ public class AvatarScript : MonoBehaviour {
 	}
 	
 	void updateBOOST() {
-		
-		//		factorVelocityUp (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
-		//		factorVelocitySide (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
-		//		updateVelocityFwdWithMax (normalFwdAccel * Time.deltaTime * boostFwdAccelFactor, normalFwdMaxSpeed * boostFwdMaxSpeedFactor);
-		//		updateVelocitySideWithMax (side * normalSideAccel * Time.deltaTime * boostSidesAccelFactor, normalSidesMaxSpeed * boostSidesMaxSpeedFactor);
-		//		updateVelocityUpWithMax (up * normalUpAccel * Time.deltaTime * boostSidesAccelFactor, normalSidesMaxSpeed * boostSidesMaxSpeedFactor);
 		updateMotion(normalFwdAccel*boostFwdAccelFactor, normalSideAccel*boostSidesAccelFactor, normalUpAccel*boostSidesAccelFactor, 
 		             naturalDecelFromBoostPerSecond, turnDecelPerSecond, turnDecelPerSecond,
 		             normalFwdMaxSpeed*boostFwdMaxSpeedFactor,  normalSidesMaxSpeed*boostFwdMaxSpeedFactor, normalSidesMaxSpeed*boostFwdMaxSpeedFactor);
@@ -136,13 +122,25 @@ public class AvatarScript : MonoBehaviour {
 		//engine.startColor = new Color (150, 50, 50);
 		//engine.startSize = 4;
 	}
+
+	//when i press B
+	void triggerBoostRequest() {
+		if (boosts>0) {
+			boostTimeLeft+=boostTime;
+			boosts--;
+		}
+	}
 	
+	//when I hit a free boost ring
+	public void addFreeBoostTime (float time) {
+		boostTimeLeft += time;
+	}
 	
 	
 	
 	// Update is called once per frame
 	void Update () {
-		spaceBack.transform.position = new Vector3 (0f, 0f, transform.position.z + 2800f);
+		spaceBack.transform.position = new Vector3 (0f, 0f, Mathf.Min (transform.position.z + 2800f,20050f));
 		applyMovementQuat (); //this assures any movment computed is relative to the identity Quaternion
 		
 		up = Input.GetAxis ("Vertical");
@@ -230,85 +228,66 @@ public class AvatarScript : MonoBehaviour {
 	}
 	
 	
-	//SIDE
-	void updateVelocitySideWithMax (float xVec, float max) {
-		if (Mathf.Abs (moveVector.x) > max) {
-			moveVector.x = moveVector.x * Mathf.Pow (naturalDecelFromBoostPerSecond, Time.deltaTime);
-		} else if (Mathf.Abs (moveVector.x) < max) {
-			moveVector.x = Mathf.Min(moveVector.x+xVec,max);
-		} 
-	}
-	
-	void updateVelocitySideWithMin (float xVec, float min) {
-		moveVector.x += xVec;
-		if (Mathf.Abs (moveVector.x) < min) {
-			moveVector.x = Mathf.Sign(moveVector.x)*min;
-		}
-	}
-	
-	void factorVelocitySide (float factor) {
-		moveVector.x = moveVector.x * factor;
-	}
-	
-	//UP
-	void updateVelocityUpWithMax (float yVec, float max) {
-		if (Mathf.Abs (moveVector.y) > max) {
-			moveVector.y = moveVector.y * Mathf.Pow (naturalDecelFromBoostPerSecond, Time.deltaTime);
-		} else if (Mathf.Abs (moveVector.y) < max) {
-			moveVector.y = Mathf.Min(moveVector.y+yVec,max);
-		} 
-	}
-	
-	void updateVelocityUpWithMin (float yVec, float min) {
-		moveVector.y += yVec;
-		if (Mathf.Abs (moveVector.y) < min) {
-			moveVector.y = Mathf.Sign(moveVector.y)*min;
-		}
-	}
-	
-	void factorVelocityUp (float factor) {
-		moveVector.y = moveVector.y * factor;
-	}
-	
-	//FWD
-	void updateVelocityFwdWithMax (float zVec, float max) {
-		if (Mathf.Abs (moveVector.z) > max) {
-			moveVector.z = moveVector.z * Mathf.Pow (naturalDecelFromBoostPerSecond, Time.deltaTime);
-		} else if (Mathf.Abs (moveVector.z) < max) {
-			moveVector.z = Mathf.Min(moveVector.z+zVec,max);
-		} 
-	}
-	
-	void updateVelocityFwdWithMin (float zVec, float min) {
-		moveVector.z += zVec;
-		if (Mathf.Abs (moveVector.z) < min) {
-			moveVector.z = Mathf.Sign(moveVector.z)*min;
-		}
-	}
-	
-	void factorVelocityFwd (float factor) {
-		moveVector.z = moveVector.z * factor;
-	}
-	
-	
-	
-	//KEITHS PLAY BOX
-	
-	//when i press B
-	void triggerBoostRequest() {
-		if (boosts>0) {
-			boostTimeLeft+=boostTime;
-			boosts--;
-		}
-	}
-	
-	//when I hit a free boost ring
-	void addFreeBoostTime () {
-		boostTimeLeft += boostTime;
-	}
-	
-	
-	
+//	//SIDE
+//	void updateVelocitySideWithMax (float xVec, float max) {
+//		if (Mathf.Abs (moveVector.x) > max) {
+//			moveVector.x = moveVector.x * Mathf.Pow (naturalDecelFromBoostPerSecond, Time.deltaTime);
+//		} else if (Mathf.Abs (moveVector.x) < max) {
+//			moveVector.x = Mathf.Min(moveVector.x+xVec,max);
+//		} 
+//	}
+//	
+//	void updateVelocitySideWithMin (float xVec, float min) {
+//		moveVector.x += xVec;
+//		if (Mathf.Abs (moveVector.x) < min) {
+//			moveVector.x = Mathf.Sign(moveVector.x)*min;
+//		}
+//	}
+//	
+//	void factorVelocitySide (float factor) {
+//		moveVector.x = moveVector.x * factor;
+//	}
+//	
+//	//UP
+//	void updateVelocityUpWithMax (float yVec, float max) {
+//		if (Mathf.Abs (moveVector.y) > max) {
+//			moveVector.y = moveVector.y * Mathf.Pow (naturalDecelFromBoostPerSecond, Time.deltaTime);
+//		} else if (Mathf.Abs (moveVector.y) < max) {
+//			moveVector.y = Mathf.Min(moveVector.y+yVec,max);
+//		} 
+//	}
+//	
+//	void updateVelocityUpWithMin (float yVec, float min) {
+//		moveVector.y += yVec;
+//		if (Mathf.Abs (moveVector.y) < min) {
+//			moveVector.y = Mathf.Sign(moveVector.y)*min;
+//		}
+//	}
+//	
+//	void factorVelocityUp (float factor) {
+//		moveVector.y = moveVector.y * factor;
+//	}
+//	
+//	//FWD
+//	void updateVelocityFwdWithMax (float zVec, float max) {
+//		if (Mathf.Abs (moveVector.z) > max) {
+//			moveVector.z = moveVector.z * Mathf.Pow (naturalDecelFromBoostPerSecond, Time.deltaTime);
+//		} else if (Mathf.Abs (moveVector.z) < max) {
+//			moveVector.z = Mathf.Min(moveVector.z+zVec,max);
+//		} 
+//	}
+//	
+//	void updateVelocityFwdWithMin (float zVec, float min) {
+//		moveVector.z += zVec;
+//		if (Mathf.Abs (moveVector.z) < min) {
+//			moveVector.z = Mathf.Sign(moveVector.z)*min;
+//		}
+//	}
+//	
+//	void factorVelocityFwd (float factor) {
+//		moveVector.z = moveVector.z * factor;
+//	}
+
 	
 	//GETTERS
 	public int getBoosts () {return boosts;}

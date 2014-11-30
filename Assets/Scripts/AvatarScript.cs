@@ -11,16 +11,16 @@ public class AvatarScript : MonoBehaviour {
 	private ImmediateStateMachine stateMachine = new ImmediateStateMachine ();
 	private CollisionFlags collisionFlags;
 	
-	private float normalFwdAccel = 200f;
-	private float normalSideAccel = 300f;
-	private float normalUpAccel = 200f;
-	private float normalFwdMaxSpeed = 200f;
+	private float normalFwdAccel = 270f;
+	private float normalSideAccel = 370f;
+	private float normalUpAccel = 250f;
+	private float normalFwdMaxSpeed = 350f;
 	private float normalSidesMaxSpeed = float.MaxValue; //unlimited
 	
 	private float boostFwdAccelFactor = 6.0f;
-	private float boostSidesAccelFactor = 2.0f;
-	private float boostFwdMaxSpeedFactor = 5.0f;
-	private float boostSidesMaxSpeedFactor = 1.4f;
+	private float boostSidesAccelFactor = 4.0f;
+	private float boostFwdMaxSpeedFactor = 3.0f;
+	private float boostSidesMaxSpeedFactor = 1f; //already unlimited
 	
 	private float turnDecelPerSecond = 0.05f; //after one second, only 0.05 of you side or up moment are left if you stop pressing button
 	private float naturalDecelFromBoostPerSecond = 0.3f;
@@ -38,16 +38,18 @@ public class AvatarScript : MonoBehaviour {
 	
 	private Quaternion appearanceQuat;
 	private Quaternion movementQuat = Quaternion.identity;
-	
+
 	
 	GameLogic gameLogicScript;
 	GenerateEnvironment genEnv;
+	private GameObject spaceBack;
 	
 	// Use this for initialization
 	void Start () {
 		gameLogicScript = GameObject.Find ("GameLogic").GetComponent<GameLogic> ();
 		genEnv = GameObject.Find ("EnvironmentGenerator").GetComponent<GenerateEnvironment> ();
 		controller = gameObject.GetComponent<CharacterController>();
+		spaceBack = GameObject.Find ("Space");
 	}
 	
 	public void StartGame() {
@@ -108,8 +110,8 @@ public class AvatarScript : MonoBehaviour {
 	}
 	
 	void enterBOOST() {
-		engine.startColor = new Color (200, 0, 255);
-		engine.startSize = 7;
+		//engine.startColor = new Color (200, 0, 255);
+		//engine.startSize = 7;
 	}
 	
 	void updateBOOST() {
@@ -131,8 +133,8 @@ public class AvatarScript : MonoBehaviour {
 	
 	void exitBOOST () {
 		boostTimeLeft = 0;
-		engine.startColor = new Color (150, 50, 50);
-		engine.startSize = 4;
+		//engine.startColor = new Color (150, 50, 50);
+		//engine.startSize = 4;
 	}
 	
 	
@@ -140,6 +142,7 @@ public class AvatarScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		spaceBack.transform.position = new Vector3 (0f, 0f, transform.position.z + 2800f);
 		applyMovementQuat (); //this assures any movment computed is relative to the identity Quaternion
 		
 		up = Input.GetAxis ("Vertical");

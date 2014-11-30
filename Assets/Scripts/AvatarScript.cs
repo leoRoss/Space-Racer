@@ -26,6 +26,8 @@ public class AvatarScript : MonoBehaviour {
 
 	public static float boostTime = 3.2f; //each boost lasts 3.2 seconds
 
+	public ParticleSystem engine;
+	
 	private int boosts;
 	private float boostTimeLeft;
 	private int bullets;
@@ -35,6 +37,7 @@ public class AvatarScript : MonoBehaviour {
 
 	private Quaternion appearanceQuat;
 	private Quaternion movementQuat = Quaternion.identity;
+
 
 	GameLogic gameLogicScript;
 	GenerateEnvironment genEnv;
@@ -91,10 +94,13 @@ public class AvatarScript : MonoBehaviour {
 	
 
 	void switchToBoostFSM() {
+
 		stateMachine.ChangeState (enterBOOST, updateBOOST, exitBOOST);
 	}
 	
 	void enterBOOST() {
+		engine.startColor = new Color (200, 0, 255);
+		engine.startSize = 7;
 	}
 	
 	void updateBOOST() {
@@ -112,6 +118,8 @@ public class AvatarScript : MonoBehaviour {
 	
 	void exitBOOST () {
 		boostTimeLeft = 0;
+		engine.startColor = new Color (150, 50, 50);
+		engine.startSize = 4;
 	}
 
 

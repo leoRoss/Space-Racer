@@ -23,9 +23,9 @@ public class GameLogic : MonoBehaviour {
 	public Vector3 avatarPos;
 	public static float highScore;
 	
-	public GameObject starField;
-	GameObject myStar;
-	
+//	public GameObject starField;
+//	GameObject myStar;
+
 	//course stuff
 	public float courseLength = 50000f;
 	
@@ -53,7 +53,7 @@ public class GameLogic : MonoBehaviour {
 		//	highScore = 0.0f;
 		avatarScript = GameObject.Find ("Avatar").GetComponent<AvatarScript> ();
 		genEnv = GameObject.Find ("EnvironmentGenerator").GetComponent<GenerateEnvironment> ();
-		myStar = Instantiate (starField, new Vector3(0f,0f,0f), Quaternion.identity) as GameObject;
+	//	myStar = Instantiate (starField, new Vector3(0f,0f,0f), Quaternion.identity) as GameObject;
 		StartGame ();
 	}
 	
@@ -64,7 +64,7 @@ public class GameLogic : MonoBehaviour {
 		
 		updateMyVariables ();
 		
-		myStar.transform.position = avatarPos;
+	//	myStar.transform.position = avatarPos;
 		
 		if (timeLeftOnTheCurrentBoost == 0)
 			boostScale = 1.0f;
@@ -108,7 +108,7 @@ public class GameLogic : MonoBehaviour {
 	//Asteroids will triger this when appropriate
 	public void AvatarCollidedWithStrongAstroid() {
 		avatarScript.AvatarCollidedWithStrongAstroid ();
-		health -= 50;
+		health -= 20;
 		healthScale = Mathf.Clamp01(health / 100.0f);
 	}
 	
@@ -121,7 +121,7 @@ public class GameLogic : MonoBehaviour {
 	
 	void AvatarCompletedTheCourse() {
 		//Be sure to call EndGame so other scripts do their shit
-		if (time > highScore)
+		if (time < highScore)
 			highScore = time;
 		EndGame ();
 		Application.LoadLevel (0);

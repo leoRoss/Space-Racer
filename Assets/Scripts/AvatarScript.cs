@@ -4,28 +4,29 @@ using System.Collections;
 [RequireComponent (typeof (CharacterController))]
 
 public class AvatarScript : MonoBehaviour {
-
+	
 	private CharacterController controller;
 	private Vector3 moveVector;
-
+	
 	private ImmediateStateMachine stateMachine = new ImmediateStateMachine ();
 	private CollisionFlags collisionFlags;
-
-	private float normalFwdAccel = 250f;
-	private float normalSidesAccel = 700f;
-	private float normalFwdMaxSpeed = 750f;
-	private float normalSidesMaxSpeed = 300f;
-
+	
+	private float normalFwdAccel = 200f;
+	private float normalSideAccel = 300f;
+	private float normalUpAccel = 200f;
+	private float normalFwdMaxSpeed = 200f;
+	private float normalSidesMaxSpeed = float.MaxValue; //unlimited
+	
 	private float boostFwdAccelFactor = 6.0f;
 	private float boostSidesAccelFactor = 2.0f;
-	private float boostFwdMaxSpeedFactor = 1.5f;
-	private float boostSidesMaxSpeedFactor = 1.3f;
-
+	private float boostFwdMaxSpeedFactor = 5.0f;
+	private float boostSidesMaxSpeedFactor = 1.4f;
+	
 	private float turnDecelPerSecond = 0.05f; //after one second, only 0.05 of you side or up moment are left if you stop pressing button
 	private float naturalDecelFromBoostPerSecond = 0.3f;
-
+	
 	public static float boostTime = 3.2f; //each boost lasts 3.2 seconds
-
+	
 	public ParticleSystem engine;
 	
 	private int boosts;
@@ -34,26 +35,26 @@ public class AvatarScript : MonoBehaviour {
 	
 	private float up;
 	private float side;
-
+	
 	private Quaternion appearanceQuat;
 	private Quaternion movementQuat = Quaternion.identity;
-
-
+	
+	
 	GameLogic gameLogicScript;
 	GenerateEnvironment genEnv;
-
+	
 	// Use this for initialization
 	void Start () {
 		gameLogicScript = GameObject.Find ("GameLogic").GetComponent<GameLogic> ();
 		genEnv = GameObject.Find ("EnvironmentGenerator").GetComponent<GenerateEnvironment> ();
 		controller = gameObject.GetComponent<CharacterController>();
 	}
-
+	
 	public void StartGame() {
 		resetGameVariables ();
 		switchToRunFSM ();
 	}
-
+	
 	void resetGameVariables () {
 		moveVector = new Vector3(0,0,0);
 		boostTimeLeft = 0f;
@@ -67,7 +68,7 @@ public class AvatarScript : MonoBehaviour {
 	public void EndGame() {
 		resetGameVariables ();
 	}
-		
+	
 	void switchToRunFSM() {
 		stateMachine.ChangeState (enterRUN, updateRUN, exitRUN);
 	}
@@ -75,16 +76,24 @@ public class AvatarScript : MonoBehaviour {
 	void enterRUN() {}
 	
 	void updateRUN() {
-		factorVelocityUp (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
-		factorVelocitySide (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
-		updateVelocityFwdWithMax (normalFwdAccel * Time.deltaTime, normalFwdMaxSpeed);
-		updateVelocitySideWithMax (side * normalSidesAccel * Time.deltaTime, normalSidesMaxSpeed);
-		updateVelocityUpWithMax (up * normalSidesAccel * Time.deltaTime, normalSidesMaxSpeed);
-
+		
+		//		factorVelocityUp (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
+		//		if (Mathf.Abs(side)<0.1f) {
+		//			factorVelocitySide (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
+		//		}
+		//		updateVelocityFwdWithMax (normalFwdAccel * Time.deltaTime, normalFwdMaxSpeed);
+		//		updateVelocitySideWithMax (side * normalSidesAccel * Time.deltaTime, normalSidesMaxSpeed);
+		//		updateVelocityUpWithMax (up * normalSidesAccel * Time.deltaTime, normalSidesMaxSpeed);
+		
+		updateMotion(normalFwdAccel, normalSideAccel, normalUpAccel, 
+		             naturalDecelFromBoostPerSecond, turnDecelPerSecond, turnDecelPerSecond,
+		             normalFwdMaxSpeed,  normalSidesMaxSpeed, normalSidesMaxSpeed);
+		
+		
 		if (Input.GetKeyDown(KeyCode.B) ) {
 			triggerBoostRequest();
 		}
-
+		
 		if (boostTimeLeft > 0) {
 			switchToBoostFSM();
 		}
@@ -92,9 +101,9 @@ public class AvatarScript : MonoBehaviour {
 	
 	void exitRUN () {}
 	
-
+	
 	void switchToBoostFSM() {
-
+		
 		stateMachine.ChangeState (enterBOOST, updateBOOST, exitBOOST);
 	}
 	
@@ -104,12 +113,16 @@ public class AvatarScript : MonoBehaviour {
 	}
 	
 	void updateBOOST() {
-
-		factorVelocityUp (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
-		factorVelocitySide (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
-		updateVelocityFwdWithMax (normalFwdAccel * Time.deltaTime * boostFwdAccelFactor, normalFwdMaxSpeed * boostFwdMaxSpeedFactor);
-		updateVelocitySideWithMax (side * normalSidesAccel * Time.deltaTime * boostSidesAccelFactor, normalSidesMaxSpeed * boostSidesMaxSpeedFactor);
-		updateVelocityUpWithMax (up * normalSidesAccel * Time.deltaTime * boostSidesAccelFactor, normalSidesMaxSpeed * boostSidesMaxSpeedFactor);
+		
+		//		factorVelocityUp (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
+		//		factorVelocitySide (Mathf.Pow(turnDecelPerSecond, Time.deltaTime));
+		//		updateVelocityFwdWithMax (normalFwdAccel * Time.deltaTime * boostFwdAccelFactor, normalFwdMaxSpeed * boostFwdMaxSpeedFactor);
+		//		updateVelocitySideWithMax (side * normalSideAccel * Time.deltaTime * boostSidesAccelFactor, normalSidesMaxSpeed * boostSidesMaxSpeedFactor);
+		//		updateVelocityUpWithMax (up * normalUpAccel * Time.deltaTime * boostSidesAccelFactor, normalSidesMaxSpeed * boostSidesMaxSpeedFactor);
+		updateMotion(normalFwdAccel*boostFwdAccelFactor, normalSideAccel*boostSidesAccelFactor, normalUpAccel*boostSidesAccelFactor, 
+		             naturalDecelFromBoostPerSecond, turnDecelPerSecond, turnDecelPerSecond,
+		             normalFwdMaxSpeed*boostFwdMaxSpeedFactor,  normalSidesMaxSpeed*boostFwdMaxSpeedFactor, normalSidesMaxSpeed*boostFwdMaxSpeedFactor);
+		
 		boostTimeLeft -= Time.deltaTime;
 		if (boostTimeLeft <= 0) {
 			switchToRunFSM();
@@ -121,62 +134,99 @@ public class AvatarScript : MonoBehaviour {
 		engine.startColor = new Color (150, 50, 50);
 		engine.startSize = 4;
 	}
-
-
-
-
+	
+	
+	
+	
 	// Update is called once per frame
 	void Update () {
 		applyMovementQuat (); //this assures any movment computed is relative to the identity Quaternion
-
+		
 		up = Input.GetAxis ("Vertical");
 		side = Input.GetAxis ("Horizontal");
-
+		
 		stateMachine.Execute();
-
+		
 		collisionFlags = controller.Move(transform.InverseTransformDirection(moveVector) * Time.deltaTime);
-
+		
 		setAppearanceQuat (moveVector.x, moveVector.y);
 		applyAppearanceQuat (); //now that we have safely moved, lets change to our appearance Quaternion for special effects (tilting)
 	}
 	
-
-
-
+	
+	
+	
 	public void AvatarCollidedWithStrongAstroid (){
 		moveVector.z = moveVector.z * 0.2f;
 		moveVector.y = moveVector.y*-1.0f;
 		moveVector.x = moveVector.x*-1.2f; 
 		moveTowardsCenter ();	
 	}
-
+	
 	public void moveTowardsCenter () {
 		Vector3 temp = transform.position;
 		temp.x = temp.x * 0.95f;
 		temp.y = temp.y * 0.95f;
 		transform.position = temp;
 	}
-
+	
 	public void AvatarCollidedWithWeakAstroid (){
 		moveVector.z = moveVector.z*0.5f; //slow down, keep going
 	}
-
-
-
+	
+	
+	public void updateMotion(float aFwd, float aUp, float aSide, 
+	                         float decelFwd, float decelUp, float decelSide,
+	                         float maxFwd, float maxUp, float maxSide) {
+		
+		//Fwd
+		if (moveVector.z>maxFwd) {
+			moveVector.z = maxFwd+(moveVector.z-maxFwd)*Mathf.Pow (decelFwd, Time.deltaTime);
+		}
+		else {
+			moveVector.z = Mathf.Min(moveVector.z + aFwd*Time.deltaTime, maxFwd);
+		}
+		
+		//Side
+		if (Mathf.Abs(side)<0.1 || moveVector.x*side<0f) { //decel out of this direction
+			moveVector.x = moveVector.x*Mathf.Pow(decelSide, Time.deltaTime);
+		}
+		if (Mathf.Abs(side)>0.1) { //time to accelerate
+			moveVector.x = moveVector.x+(aSide*side)*Time.deltaTime;
+		}
+		
+		//Side
+		if (Mathf.Abs(up)<0.1 || moveVector.y*up<0f) { //decel out of this direction
+			moveVector.y = moveVector.y*Mathf.Pow(decelUp, Time.deltaTime);
+		}
+		if (Mathf.Abs(up)>0.1) { //time to accelerate
+			moveVector.y = moveVector.y+(aUp*up)*Time.deltaTime;
+		}
+		
+		
+	}
+	
+	
 	//TRANSFORMS
 	void applyMovementQuat () {
 		transform.rotation = movementQuat;
 	}
-
+	
 	void applyAppearanceQuat () {
 		transform.rotation = appearanceQuat;
 	}
-
+	
 	void setAppearanceQuat (float x, float y) {
-		appearanceQuat = Quaternion.Euler(new Vector3(y*-0.17f,0f,x*-0.17f));
+		float yangle = y * -0.2f;
+		float xangle = x * -0.2f;
+		float ysign = Mathf.Sign (yangle);
+		float xsign = Mathf.Sign (xangle);
+		yangle = ysign * Mathf.Min (Mathf.Abs (yangle), 75f);
+		xangle = xsign * Mathf.Min (Mathf.Abs (xangle), 75f);
+		appearanceQuat = Quaternion.Euler(new Vector3(yangle,0f,xangle));
 	}
-
-
+	
+	
 	//SIDE
 	void updateVelocitySideWithMax (float xVec, float max) {
 		if (Mathf.Abs (moveVector.x) > max) {
@@ -185,18 +235,18 @@ public class AvatarScript : MonoBehaviour {
 			moveVector.x = Mathf.Min(moveVector.x+xVec,max);
 		} 
 	}
-
+	
 	void updateVelocitySideWithMin (float xVec, float min) {
 		moveVector.x += xVec;
 		if (Mathf.Abs (moveVector.x) < min) {
 			moveVector.x = Mathf.Sign(moveVector.x)*min;
 		}
 	}
-
+	
 	void factorVelocitySide (float factor) {
 		moveVector.x = moveVector.x * factor;
 	}
-
+	
 	//UP
 	void updateVelocityUpWithMax (float yVec, float max) {
 		if (Mathf.Abs (moveVector.y) > max) {
@@ -205,7 +255,7 @@ public class AvatarScript : MonoBehaviour {
 			moveVector.y = Mathf.Min(moveVector.y+yVec,max);
 		} 
 	}
-
+	
 	void updateVelocityUpWithMin (float yVec, float min) {
 		moveVector.y += yVec;
 		if (Mathf.Abs (moveVector.y) < min) {
@@ -216,7 +266,7 @@ public class AvatarScript : MonoBehaviour {
 	void factorVelocityUp (float factor) {
 		moveVector.y = moveVector.y * factor;
 	}
-
+	
 	//FWD
 	void updateVelocityFwdWithMax (float zVec, float max) {
 		if (Mathf.Abs (moveVector.z) > max) {
@@ -225,22 +275,22 @@ public class AvatarScript : MonoBehaviour {
 			moveVector.z = Mathf.Min(moveVector.z+zVec,max);
 		} 
 	}
-
+	
 	void updateVelocityFwdWithMin (float zVec, float min) {
 		moveVector.z += zVec;
 		if (Mathf.Abs (moveVector.z) < min) {
 			moveVector.z = Mathf.Sign(moveVector.z)*min;
 		}
 	}
-
+	
 	void factorVelocityFwd (float factor) {
 		moveVector.z = moveVector.z * factor;
 	}
-
-
-
+	
+	
+	
 	//KEITHS PLAY BOX
-
+	
 	//when i press B
 	void triggerBoostRequest() {
 		if (boosts>0) {
@@ -253,10 +303,10 @@ public class AvatarScript : MonoBehaviour {
 	void addFreeBoostTime () {
 		boostTimeLeft += boostTime;
 	}
-
-
-
-
+	
+	
+	
+	
 	//GETTERS
 	public int getBoosts () {return boosts;}
 	public float getBoostTimeLeft () {return boostTimeLeft;}

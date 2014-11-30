@@ -23,8 +23,8 @@ public class DuckFollow : MonoBehaviour {
 	void Update () {
 		updateArray (playerPos, player.transform.TransformPoint (lookAtVector), playerCatchUpFactor);
 		updateArray (camPos, player.transform.TransformPoint (relativeCamPos), cameraCatchUpFactor);
-		transform.position = camPos [9];
-		transform.LookAt (playerPos [9]);
+		transform.position = new Vector3(camPos[9].x*0.75f,camPos[9].y*0.75f,camPos [9].z-100f);
+		transform.LookAt ( new Vector3 (playerPos [9].x*0.85f, playerPos [9].y*0.85f, playerPos [9].z) );
 	}
 	
 	void resetArrays() {

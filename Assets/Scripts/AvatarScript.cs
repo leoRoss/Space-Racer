@@ -226,7 +226,14 @@ public class AvatarScript : MonoBehaviour {
 		xangle = xsign * Mathf.Min (Mathf.Abs (xangle), 75f);
 		appearanceQuat = Quaternion.Euler(new Vector3(yangle,0f,xangle));
 	}
-	
+
+
+	public void AddBoost (){
+		boosts = boosts + 1;
+	}
+	public void AddBomb (){
+		bullets = bullets + 1;
+	}
 	
 //	//SIDE
 //	void updateVelocitySideWithMax (float xVec, float max) {

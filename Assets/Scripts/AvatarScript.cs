@@ -38,7 +38,6 @@ public class AvatarScript : MonoBehaviour {
 	
 	private Quaternion appearanceQuat;
 	private Quaternion movementQuat = Quaternion.identity;
-
 	
 	GameLogic gameLogicScript;
 	GenerateEnvironment genEnv;
@@ -61,7 +60,7 @@ public class AvatarScript : MonoBehaviour {
 	void resetGameVariables () {
 		moveVector = new Vector3(0,0,0);
 		boostTimeLeft = 0f;
-		boosts = 3;
+		boosts = 5;
 		bullets = 0;
 		collisionFlags = CollisionFlags.None;
 		appearanceQuat = Quaternion.identity;
@@ -70,6 +69,14 @@ public class AvatarScript : MonoBehaviour {
 	
 	public void EndGame() {
 		resetGameVariables ();
+	}
+
+	public void pauseGame() {
+		this.gameObject.SetActive (false);
+	}
+
+	public void unPauseGame() {
+		this.gameObject.SetActive (true);
 	}
 	
 	void switchToRunFSM() {

@@ -22,35 +22,66 @@ public class GameLogic : MonoBehaviour {
 	public int numberOfBulletsLeft;
 	public Vector3 avatarPos;
 	public static float highScore;
+
+	public AudioSource explosion;
+	public AudioSource backgroundMusic;
+
+	public static bool played;
 	
 //	public GameObject starField;
 //	GameObject myStar;
 
 	//course stuff
 	public float courseLength = 50000f;
+
+	private bool drawGUI = true;
+	public static bool startedPlay = false;
+
+	public GUIText instructionsText;
 	
 	AvatarScript avatarScript;
 	GenerateEnvironment genEnv;
 	
 	
 	void OnGUI () {
-		GUI.backgroundColor = Color.red;
-		GUI.Button(new Rect(20, 660, 510 * healthScale, 30), "Health", skin.button);
-		if(numberOfBoostsLeft == 0)
-			GUI.backgroundColor = Color.black;
-		else
-			GUI.backgroundColor = Color.blue;
-		GUI.Button(new Rect(740, 660, 510 * boostScale, 30), "Boost", skin.button);
-		float roundedTime = Mathf.Round (time * 100) / 100;
-		timeText.text = "Time : " + (roundedTime).ToString();
-		boost.text = "Boosts Left : " + numberOfBoostsLeft;
+		if (drawGUI) {
+						GUI.backgroundColor = Color.red;
+						GUI.Button (new Rect (20, 660, 510 * healthScale, 30), "Health", skin.button);
+						if (numberOfBoostsLeft == 0)
+								GUI.backgroundColor = Color.black;
+						else
+								GUI.backgroundColor = Color.blue;
+						GUI.Button (new Rect (740, 660, 510 * boostScale, 30), "Boost", skin.button);
+						float roundedTime = Mathf.Round (time * 100) / 100;
+						timeText.text = "Time : " + (roundedTime).ToString ();
+						boost.text = "Boosts Left : " + numberOfBoostsLeft;
+				} else {
+			timeText.text = "";
+			boost.text = "";
+				}
+	}
+
+	IEnumerator FadeInstructions() {
+		for (float f = 5f; f >= 0; f -= 0.05f) {
+			Color c = instructionsText.color;
+			c.a = f/5f;
+			instructionsText.color = c;
+			yield return new WaitForSeconds(.01f);
+		}
+		StartCoroutine(FadeInstructions());
 	}
 	
 	// Use this for initialization
 	void Start () {
+		instructionsText.enabled = false;
+		startedPlay = true;
+		DontDestroyOnLoad (backgroundMusic);
+		if (!played) {
+			backgroundMusic.Play ();
+			startedPlay = true;
+				}
 		timeText.text = "" + 0;
 		boost.text = "" + 0;
-		//	highScore = 0.0f;
 		avatarScript = GameObject.Find ("Avatar").GetComponent<AvatarScript> ();
 		genEnv = GameObject.Find ("EnvironmentGenerator").GetComponent<GenerateEnvironment> ();
 	//	myStar = Instantiate (starField, new Vector3(0f,0f,0f), Quaternion.identity) as GameObject;
@@ -59,6 +90,10 @@ public class GameLogic : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.R)) {
+			EndGame ();
+			Application.LoadLevel (1);
+		}
 		
 		time += Time.deltaTime;
 		
@@ -104,12 +139,22 @@ public class GameLogic : MonoBehaviour {
 		avatarScript.EndGame();
 		genEnv.EndGame ();
 	}
-	
+
+    void pauseGame() {
+		instructionsText.enabled = true;
+		StartCoroutine(FadeInstructions());
+		avatarScript.pauseGame ();
+		genEnv.EndGame ();
+		drawGUI = false;
+		}
+
+
 	//Asteroids will triger this when appropriate
 	public void AvatarCollidedWithStrongAstroid() {
 		avatarScript.AvatarCollidedWithStrongAstroid ();
 		health -= 20;
 		healthScale = Mathf.Clamp01(health / 100.0f);
+		explosion.Play();
 	}
 	
 	//Asteroids will triger this fun when appropriate
@@ -117,6 +162,7 @@ public class GameLogic : MonoBehaviour {
 		avatarScript.AvatarCollidedWithWeakAstroid ();
 		health -= 20;
 		healthScale = Mathf.Clamp01(health / 100.0f);
+		explosion.Play();
 	}
 	
 	void AvatarCompletedTheCourse() {
@@ -124,12 +170,13 @@ public class GameLogic : MonoBehaviour {
 		if (time < highScore || highScore == 0)
 			highScore = time;
 		EndGame ();
+		played = true;
 		Application.LoadLevel (0);
 	}
 	
 	void AvatarFailedTheCourse() {
 		//Be sure to call EndGame so other scripts do their shit
-		EndGame ();
-		Application.LoadLevel (0);
+		pauseGame();
+		played = true;
 	}
 }

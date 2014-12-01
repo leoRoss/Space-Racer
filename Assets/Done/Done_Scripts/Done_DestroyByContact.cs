@@ -14,6 +14,11 @@ public class Done_DestroyByContact : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
+
+		Start ();
+		if (other == null)
+						return;
+
 		if (other.tag == "Boundary" || other.tag == "Enemy")
 		{
 			return;

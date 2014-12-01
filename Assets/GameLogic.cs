@@ -121,7 +121,7 @@ public class GameLogic : MonoBehaviour {
 	
 	void AvatarCompletedTheCourse() {
 		//Be sure to call EndGame so other scripts do their shit
-		if (time < highScore)
+		if (time < highScore || highScore == 0)
 			highScore = time;
 		EndGame ();
 		Application.LoadLevel (0);

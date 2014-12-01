@@ -102,8 +102,8 @@ public class AvatarScript : MonoBehaviour {
 	}
 	
 	void enterBOOST() {
-		//engine.startColor = new Color (200, 0, 255);
-		//engine.startSize = 7;
+		engine.startColor = new Color (200, 0, 255);
+		engine.startSize = 7;
 	}
 	
 	void updateBOOST() {
@@ -119,8 +119,8 @@ public class AvatarScript : MonoBehaviour {
 	
 	void exitBOOST () {
 		boostTimeLeft = 0;
-		//engine.startColor = new Color (150, 50, 50);
-		//engine.startSize = 4;
+		engine.startColor = new Color (150, 50, 50);
+		engine.startSize = 4;
 	}
 
 	//when i press B

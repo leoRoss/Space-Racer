@@ -1,10 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/AvatarScript.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GameLogic.cs">
     <Files>
       <File FileName="Assets/Scripts/AvatarScript.cs" Line="299" Column="1" />
-      <File FileName="Assets/Scripts/AvatarScript.cs" Line="82" Column="3" />
       <File FileName="Assets/Scripts/DuckFollow.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GenerateEnvironment.cs" Line="1" Column="1" />
+      <File FileName="Assets/GameLogic.cs" Line="124" Column="41" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

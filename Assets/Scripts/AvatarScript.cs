@@ -28,6 +28,8 @@ public class AvatarScript : MonoBehaviour {
 	public static float boostTime = 3.2f; //each boost lasts 3.2 seconds
 	
 	public ParticleSystem engine;
+	public ParticleSystem stars;
+	public ParticleSystem bigStars;
 	
 	private int boosts;
 	private float boostTimeLeft;
@@ -147,6 +149,10 @@ public class AvatarScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		stars.transform.position = getPos();
+		bigStars.transform.position = getPos();
+
 		spaceBack.transform.position = new Vector3 (0f, 0f, Mathf.Min (transform.position.z + 2800f,20050f));
 		applyMovementQuat (); //this assures any movment computed is relative to the identity Quaternion
 		

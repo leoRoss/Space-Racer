@@ -27,9 +27,6 @@ public class GameLogic : MonoBehaviour {
 	public AudioSource backgroundMusic;
 
 	public static bool played;
-	
-//	public GameObject starField;
-//	GameObject myStar;
 
 	//course stuff
 	public float courseLength = 50000f;

@@ -26,6 +26,8 @@ public class AvatarScript : MonoBehaviour {
 	private float naturalDecelFromBoostPerSecond = 0.3f;
 	
 	public static float boostTime = 3.2f; //each boost lasts 3.2 seconds
+
+	public static bool invert = false;
 	
 	public ParticleSystem engine;
 	public ParticleSystem stars;
@@ -37,7 +39,7 @@ public class AvatarScript : MonoBehaviour {
 	
 	private float up;
 	private float side;
-	
+
 	private Quaternion appearanceQuat;
 	private Quaternion movementQuat = Quaternion.identity;
 	
@@ -158,6 +160,9 @@ public class AvatarScript : MonoBehaviour {
 		
 		up = Input.GetAxis ("Vertical");
 		side = Input.GetAxis ("Horizontal");
+
+		if(invert)
+		up = -up;
 		
 		stateMachine.Execute();
 		

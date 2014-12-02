@@ -4,20 +4,54 @@ using System.Collections;
 public class SplashControl : MonoBehaviour {
 
 	public GUIText highScore;
+	public GUIText lastScore;
+	public GUIText score;
+	public GUIText lScore;
+
+	public AudioSource backgroundMusic;
 
 	void Start () {
-		highScore.text = ""  + GameLogic.highScore;
+		if (GameLogic.lastScore == 0) {
+						lastScore.enabled = false;
+						lScore.enabled = false;
+				} else {
+						lastScore.enabled = true;
+			lScore.enabled = true;
+				}
+
+		if (GameLogic.highScore == 0) {
+						highScore.enabled = false;
+						score.enabled = false;
+				} else {
+						highScore.enabled = true;
+						score.enabled = true;
+				}
+
+		score.text = "" + GameLogic.highScore;
+		lScore.text = ""  + GameLogic.lastScore;
 		}
 	
 	void OnMouseEnter() {
-		renderer.material.color = Color.red;
+		this.guiText.color = Color.red;
 	}
 
 	void OnMouseExit() {
-		renderer.material.color = Color.white;
+		if(!AvatarScript.invert)
+		this.guiText.color = Color.white;
 	}
 
 	void OnMouseUp() {
-		Application.LoadLevel (1);
+		AvatarScript.invert = !AvatarScript.invert;
+		}
+
+	void Update() {
+		if (GameLogic.startedPlay)
+			backgroundMusic.Stop();
+
+		if(AvatarScript.invert)
+			this.guiText.color = Color.red;
+
+				if (Input.GetKeyDown ("space"))
+						Application.LoadLevel (1);
 		}
 }

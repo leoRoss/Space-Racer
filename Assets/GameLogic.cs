@@ -22,6 +22,7 @@ public class GameLogic : MonoBehaviour {
 	public int numberOfBulletsLeft;
 	public Vector3 avatarPos;
 	public static float highScore;
+	public static float lastScore;
 
 	public AudioSource explosion;
 	public AudioSource backgroundMusic;
@@ -70,6 +71,7 @@ public class GameLogic : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+
 		instructionsText.enabled = false;
 		startedPlay = true;
 		DontDestroyOnLoad (backgroundMusic);
@@ -77,6 +79,7 @@ public class GameLogic : MonoBehaviour {
 			backgroundMusic.Play ();
 			startedPlay = true;
 				}
+		played = true;
 		timeText.text = "" + 0;
 		boost.text = "" + 0;
 		avatarScript = GameObject.Find ("Avatar").GetComponent<AvatarScript> ();
@@ -163,17 +166,18 @@ public class GameLogic : MonoBehaviour {
 	}
 	
 	void AvatarCompletedTheCourse() {
+		float roundedTime = Mathf.Round (time * 100) / 100;
 		//Be sure to call EndGame so other scripts do their shit
-		if (time < highScore || highScore == 0)
-			highScore = time;
+		lastScore = roundedTime;
+		if (time < highScore || highScore == 0) {
+						highScore = roundedTime;
+				}
 		EndGame ();
-		played = true;
 		Application.LoadLevel (0);
 	}
 	
 	void AvatarFailedTheCourse() {
 		//Be sure to call EndGame so other scripts do their shit
 		pauseGame();
-		played = true;
 	}
 }

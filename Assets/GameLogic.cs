@@ -167,7 +167,6 @@ public class GameLogic : MonoBehaviour {
 	
 	void AvatarCompletedTheCourse() {
 		float roundedTime = Mathf.Round (time * 100) / 100;
-		//Be sure to call EndGame so other scripts do their shit
 		lastScore = roundedTime;
 		if (time < highScore || highScore == 0) {
 						highScore = roundedTime;
@@ -177,7 +176,6 @@ public class GameLogic : MonoBehaviour {
 	}
 	
 	void AvatarFailedTheCourse() {
-		//Be sure to call EndGame so other scripts do their shit
 		pauseGame();
 	}
 }

@@ -113,6 +113,7 @@ public class AvatarScript : MonoBehaviour {
 	}
 	
 	void enterBOOST() {
+		this.audio.Play ();
 		engine.startColor = new Color (200, 0, 255);
 		engine.startSize = 7;
 	}

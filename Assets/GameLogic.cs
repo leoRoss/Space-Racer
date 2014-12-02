@@ -36,6 +36,8 @@ public class GameLogic : MonoBehaviour {
 	public static bool startedPlay = false;
 
 	public GUIText instructionsText;
+
+	public Texture2D btnTexture;
 	
 	AvatarScript avatarScript;
 	GenerateEnvironment genEnv;
@@ -44,15 +46,18 @@ public class GameLogic : MonoBehaviour {
 	void OnGUI () {
 		if (drawGUI) {
 						GUI.backgroundColor = Color.red;
-						GUI.Button (new Rect (20, 660, 510 * healthScale, 30), "Health", skin.button);
+			GUI.Button (new Rect (0, Screen.height - 30, Screen.width * healthScale, 30), "Health", skin.button);
 						if (numberOfBoostsLeft == 0)
 								GUI.backgroundColor = Color.black;
 						else
 								GUI.backgroundColor = Color.blue;
-						GUI.Button (new Rect (740, 660, 510 * boostScale, 30), "Boost", skin.button);
+			GUI.Button (new Rect (0, Screen.height - 60, Screen.width * boostScale, 30), "Boost", skin.button);
 						float roundedTime = Mathf.Round (time * 100) / 100;
 						timeText.text = "Time : " + (roundedTime).ToString ();
-						boost.text = "Boosts Left : " + numberOfBoostsLeft;
+
+			for (int i = 0 ; i < numberOfBoostsLeft ; i++)
+				GUI.DrawTexture(new Rect(i * 55, Screen.height - 110, btnTexture.width, btnTexture.height), btnTexture);
+
 				} else {
 			timeText.text = "";
 			boost.text = "";
@@ -68,10 +73,9 @@ public class GameLogic : MonoBehaviour {
 		}
 		StartCoroutine(FadeInstructions());
 	}
-	
+
 	// Use this for initialization
 	void Start () {
-
 		instructionsText.enabled = false;
 		startedPlay = true;
 		DontDestroyOnLoad (backgroundMusic);

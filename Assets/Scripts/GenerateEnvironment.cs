@@ -70,7 +70,7 @@ public class GenerateEnvironment : MonoBehaviour {
 
 	void genAllRings (float z){
 		currentStart = z;
-		for (int i=2; i<rings.Length; i++) {
+		for (int i=4; i<rings.Length; i++) {
 			makeAstroidRing (currentStart+ringDist*i, ringRadius, rings[i]);
 		}
 	}
@@ -97,7 +97,7 @@ public class GenerateEnvironment : MonoBehaviour {
 			for (float ver = -1f*radius; ver < radius; ver += obstSpace) {
 				float randSeed = Random.Range (-1.0f, 1.0f); // So that we use a different spot on the perlin noise plane for each ring
 				float noise = Mathf.PerlinNoise((hor + radius)/(radius) + randSeed, (ver + radius)/(radius) + randSeed);
-				float offset = Random.Range (-1.0f*obstSpace, obstSpace); // So that asteroids don't line up like a grid
+				float offset = Random.Range (-1.0f*((obstSpace - 2*obstRockSize)/2.0f), ((obstSpace - 2*obstRockSize)/2.0f)); // So that asteroids don't line up like a grid
 				//Debug.Log (noise);
 				if (noise > noiseThresh) {
 					GameObject pref = randomType();

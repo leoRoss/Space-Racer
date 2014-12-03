@@ -164,13 +164,16 @@ public class GenerateEnvironment : MonoBehaviour {
 		if (ast.tag == "Boost") {
 			avatarScript.AddBoost();
 		}
-		if (ast.tag == "Bomb") {
+		else if (ast.tag == "Bomb") {
 			avatarScript.AddBomb();
 		}
-		if (ast.tag == "Health") {
+		else if (ast.tag == "Health") {
 			gameLogic.AddHealth();
 		}
-		Destroy(ast);
+
+		if (ast.tag != "RingBoost") {
+			Destroy(ast);	
+		}
 	}
 
 	bool inBombRadius (Vector3 p, int i) {

@@ -95,7 +95,7 @@ public class AvatarScript : MonoBehaviour {
 		             normalFwdMaxSpeed,  normalSidesMaxSpeed, normalSidesMaxSpeed);
 		
 		
-		if (Input.GetKeyDown(KeyCode.B) ) {
+		if (Input.GetKeyDown(KeyCode.Space) ) {
 			triggerBoostRequest();
 		}
 		

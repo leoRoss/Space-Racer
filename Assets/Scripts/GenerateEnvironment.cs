@@ -13,7 +13,7 @@ public class GenerateEnvironment : MonoBehaviour {
 	public GameObject boostring;
 	AvatarScript avatarScript;
 	public GameLogic gameLogic;
-	public float avatarZPos;
+	Vector3 avatarPos;
 	public GameObject wall;
 
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -36,7 +36,7 @@ public class GenerateEnvironment : MonoBehaviour {
 	//int numberPerRing = 20;
 	float obstSpace = 350f; // Vertical/horizontal space between asteroid objects
 	float noiseThresh = 0.55f; // Perlin noise value must be greater than this for an asteroid to be placed at that point
-
+	float bombRadius = 700f;
 	float currentStart;
 	float wallLength;
 
@@ -143,17 +143,35 @@ public class GenerateEnvironment : MonoBehaviour {
 		}
 	}
 
+	public void BombsAway () {
+		for (int i=0; i<4; i++) {
+//			foreach (GameObject ast in rings[i]) {
+//				if (inBombRadius(ast.transform.position)) {
+//					GameObject.Destroy(ast);
+//				}
+//			}
+			destroyList(rings[i]);
+		}
+	}
+
+	bool inBombRadius (Vector3 p) {
+		return true;
+	}
+
+
 	// Update is called once per frame
 	void Update () {
 		updateMyVariables ();
-		if (avatarZPos > currentStart + ringDist) {
+		if (avatarPos.z > currentStart + ringDist) {
 			genNextField();
 		}
 	}
 
 	void updateMyVariables () {
-		avatarZPos = avatarScript.getZPos ();
+		avatarPos = avatarScript.getPos ();
 	}
+
+
 
 	// TEMP
 //	void makeAstroidLine(){

@@ -98,6 +98,10 @@ public class GameLogic : MonoBehaviour {
 			EndGame ();
 			Application.LoadLevel (1);
 		}
+
+		if (Input.GetKeyDown(KeyCode.LeftCommand)) {
+			genEnv.BombsAway();
+		}
 		
 		time += Time.deltaTime;
 		

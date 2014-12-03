@@ -1,6 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/BoostContactD.cs">
+    <Files>
+      <File FileName="Assets/Done/Done_Scripts/Done_DestroyByContact.cs" Line="5" Column="2" />
+      <File FileName="Assets/BombDestroyContact.cs" Line="6" Column="30" />
+      <File FileName="Assets/BoostContactD.cs" Line="38" Column="20" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

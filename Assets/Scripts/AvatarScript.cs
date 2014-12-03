@@ -65,7 +65,7 @@ public class AvatarScript : MonoBehaviour {
 		moveVector = new Vector3(0,0,0);
 		boostTimeLeft = 0f;
 		boosts = 5;
-		bullets = 2;
+		bullets = 3;
 		collisionFlags = CollisionFlags.None;
 		appearanceQuat = Quaternion.identity;
 		transform.position = new Vector3 (0f, 0f, 0f);

@@ -139,23 +139,44 @@ public class GenerateEnvironment : MonoBehaviour {
 
 	void destroyList(List<GameObject> list) {
 		foreach (GameObject obj in list) {
-			Destroy(obj);
+			if (obj!=null) {
+				Destroy(obj);
+			}
 		}
 	}
 
 	public void BombsAway () {
-		for (int i=0; i<4; i++) {
-//			foreach (GameObject ast in rings[i]) {
-//				if (inBombRadius(ast.transform.position)) {
-//					GameObject.Destroy(ast);
-//				}
-//			}
-			destroyList(rings[i]);
+		for (int i=1; i<5; i++) { 
+			if (rings[i]!=null) {
+				foreach (GameObject ast in rings[i]) {
+					if (ast!=null) {
+						if (inBombRadius(ast.transform.position, i)) {
+							bombDestroy(ast);
+						}
+					}
+				}
+			}
 		}
 	}
 
-	bool inBombRadius (Vector3 p) {
-		return true;
+	void bombDestroy (GameObject ast){
+		if (ast.tag == "Boost") {
+			avatarScript.AddBoost();
+		}
+		if (ast.tag == "Bomb") {
+			avatarScript.AddBomb();
+		}
+		if (ast.tag == "Health") {
+			gameLogic.AddHealth();
+		}
+		Destroy(ast);
+	}
+
+	bool inBombRadius (Vector3 p, int i) {
+		if (Mathf.Abs (p.x - avatarPos.x) < 380-40*i && Mathf.Abs (p.y - avatarPos.y) < 380-40*i) {
+			return true;
+		}
+		return false;
 	}
 
 

@@ -51,7 +51,7 @@ public class SplashControl : MonoBehaviour {
 		if(AvatarScript.invert)
 			this.guiText.color = Color.red;
 
-				if (Input.GetKeyDown ("space"))
+				if (Input.GetKeyDown (KeyCode.Return))
 						Application.LoadLevel (1);
 		}
 }

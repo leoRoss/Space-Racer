@@ -18,7 +18,7 @@ public class AvatarScript : MonoBehaviour {
 	private float normalSidesMaxSpeed = float.MaxValue; //unlimited
 	
 	private float boostFwdAccelFactor = 6.0f;
-	private float boostSidesAccelFactor = 1.8f;
+	private float boostSidesAccelFactor = 1.6f;
 	private float boostFwdMaxSpeedFactor = 2.5f;
 	private float boostSidesMaxSpeedFactor = 1f; //already unlimited
 	

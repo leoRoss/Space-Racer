@@ -41,8 +41,7 @@ public class GameLogic : MonoBehaviour {
 	
 	AvatarScript avatarScript;
 	GenerateEnvironment genEnv;
-	
-	
+
 	void OnGUI () {
 		if (drawGUI) {
 						GUI.backgroundColor = Color.red;
@@ -98,10 +97,6 @@ public class GameLogic : MonoBehaviour {
 			EndGame ();
 			Application.LoadLevel (1);
 		}
-
-		if (Input.GetKeyDown(KeyCode.LeftCommand)) {
-			genEnv.BombsAway();
-		}
 		
 		time += Time.deltaTime;
 		
@@ -122,7 +117,16 @@ public class GameLogic : MonoBehaviour {
 			AvatarCompletedTheCourse ();
 		}
 	}
-	
+
+	public void BombsAway() {
+		//please make an explosion occur
+	}
+	//use numberOfBulletsLeft to make the UI :)
+
+	public void AddHealth() {
+		//todo, I will call this when I bomb a Health Astroid
+	}
+
 	void updateMyVariables () {
 		numberOfBoostsLeft = avatarScript.getBoosts ();
 		timeLeftOnTheCurrentBoost = avatarScript.getBoostTimeLeft ();

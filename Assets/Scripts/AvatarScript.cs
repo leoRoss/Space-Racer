@@ -65,7 +65,7 @@ public class AvatarScript : MonoBehaviour {
 		moveVector = new Vector3(0,0,0);
 		boostTimeLeft = 0f;
 		boosts = 5;
-		bullets = 0;
+		bullets = 2;
 		collisionFlags = CollisionFlags.None;
 		appearanceQuat = Quaternion.identity;
 		transform.position = new Vector3 (0f, 0f, 0f);
@@ -152,6 +152,9 @@ public class AvatarScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.LeftCommand)) {
+			requestBomb();
+		}
 
 		stars.transform.position = getPos();
 		bigStars.transform.position = getPos();
@@ -252,6 +255,14 @@ public class AvatarScript : MonoBehaviour {
 	}
 	public void AddBomb (){
 		bullets = bullets + 1;
+	}
+
+	void requestBomb() {
+		if (bullets>0) {
+			bullets--;
+			genEnv.BombsAway();
+			gameLogicScript.BombsAway();
+		}
 	}
 	
 //	//SIDE

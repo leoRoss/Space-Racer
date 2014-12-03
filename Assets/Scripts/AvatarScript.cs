@@ -152,7 +152,7 @@ public class AvatarScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.LeftCommand)) {
+		if (Input.GetKeyDown(KeyCode.C)) {
 			requestBomb();
 		}
 

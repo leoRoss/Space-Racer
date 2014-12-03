@@ -12,7 +12,7 @@ public class GenerateEnvironment : MonoBehaviour {
 	public GameObject abomb;
 	public GameObject boostring;
 	AvatarScript avatarScript;
-	public GameLogic gameLogic;
+	GameLogic gameLogic;
 	Vector3 avatarPos;
 	public GameObject wall;
 
@@ -43,6 +43,7 @@ public class GenerateEnvironment : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		avatarScript = GameObject.Find ("Avatar").GetComponent<AvatarScript> ();
+		gameLogic = GameObject.Find ("GameLogic").GetComponent<GameLogic> ();
 	}
 
 	public void StartGame () {

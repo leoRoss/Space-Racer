@@ -14,12 +14,12 @@ public class AvatarScript : MonoBehaviour {
 	private float normalFwdAccel = 270f;
 	private float normalSideAccel = 370f;
 	private float normalUpAccel = 250f;
-	private float normalFwdMaxSpeed = 350f;
+	private float normalFwdMaxSpeed = 450f;
 	private float normalSidesMaxSpeed = float.MaxValue; //unlimited
 	
 	private float boostFwdAccelFactor = 6.0f;
-	private float boostSidesAccelFactor = 4.0f;
-	private float boostFwdMaxSpeedFactor = 3.0f;
+	private float boostSidesAccelFactor = 1.8f;
+	private float boostFwdMaxSpeedFactor = 2.5f;
 	private float boostSidesMaxSpeedFactor = 1f; //already unlimited
 	
 	private float turnDecelPerSecond = 0.05f; //after one second, only 0.05 of you side or up moment are left if you stop pressing button

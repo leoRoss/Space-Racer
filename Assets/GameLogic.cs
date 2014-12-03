@@ -37,7 +37,8 @@ public class GameLogic : MonoBehaviour {
 
 	public GUIText instructionsText;
 
-	public Texture2D btnTexture;
+	public Texture2D boostTexture;
+	public Texture2D bombTexture;
 	
 	AvatarScript avatarScript;
 	GenerateEnvironment genEnv;
@@ -55,7 +56,10 @@ public class GameLogic : MonoBehaviour {
 						timeText.text = "Time : " + (roundedTime).ToString ();
 
 			for (int i = 0 ; i < numberOfBoostsLeft ; i++)
-				GUI.DrawTexture(new Rect(i * 55, Screen.height - 110, btnTexture.width, btnTexture.height), btnTexture);
+				GUI.DrawTexture(new Rect(i * 55, Screen.height - 110, boostTexture.width, boostTexture.height), boostTexture);
+
+			for (int i = 0 ; i < avatarScript.getBullets () ; i++)
+				GUI.DrawTexture(new Rect(i * 55 + (numberOfBoostsLeft * 55), Screen.height - 110, bombTexture.width, bombTexture.height), bombTexture);
 
 				} else {
 			timeText.text = "";
@@ -124,7 +128,8 @@ public class GameLogic : MonoBehaviour {
 	//use numberOfBulletsLeft to make the UI :)
 
 	public void AddHealth() {
-		//todo, I will call this when I bomb a Health Astroid
+		health += 40;
+		healthScale = Mathf.Clamp01(health / 100.0f);
 	}
 
 	void updateMyVariables () {

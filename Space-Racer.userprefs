@@ -1,12 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GenerateEnvironment.cs">
-    <Files>
-      <File FileName="Assets/Scripts/AvatarScript.cs" Line="98" Column="37" />
-      <File FileName="Assets/GameLogic.cs" Line="103" Column="23" />
-      <File FileName="Assets/Scripts/GenerateEnvironment.cs" Line="147" Column="20" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

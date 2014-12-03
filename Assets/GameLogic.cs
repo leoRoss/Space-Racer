@@ -39,6 +39,8 @@ public class GameLogic : MonoBehaviour {
 
 	public Texture2D boostTexture;
 	public Texture2D bombTexture;
+
+	public GameObject boom;
 	
 	AvatarScript avatarScript;
 	GenerateEnvironment genEnv;
@@ -123,7 +125,7 @@ public class GameLogic : MonoBehaviour {
 	}
 
 	public void BombsAway() {
-		//please make an explosion occur
+		Instantiate(boom, avatarPos, Quaternion.identity);
 	}
 	//use numberOfBulletsLeft to make the UI :)
 

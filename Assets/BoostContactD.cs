@@ -36,6 +36,7 @@ public class BoostContactD : MonoBehaviour
 			Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
 			gameLogicScript.AvatarCollidedWithWeakAstroid();
 			aScript.AddBoost();
+			GameLogic.notifications.Add("BOOST");
 		}
 		
 		Destroy (gameObject);

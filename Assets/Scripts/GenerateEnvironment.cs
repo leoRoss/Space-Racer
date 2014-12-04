@@ -163,12 +163,15 @@ public class GenerateEnvironment : MonoBehaviour {
 	void bombDestroy (GameObject ast){
 		if (ast.tag == "Boost") {
 			avatarScript.AddBoost();
+			GameLogic.notifications.Add ("BOOST");
 		}
 		if (ast.tag == "Bomb") {
 			avatarScript.AddBomb();
+			GameLogic.notifications.Add ("BOMB");
 		}
 		if (ast.tag == "Health") {
 			gameLogic.AddHealth();
+			GameLogic.notifications.Add ("HEALTH");
 		}
 		Destroy(ast);
 	}

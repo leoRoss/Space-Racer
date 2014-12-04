@@ -41,6 +41,9 @@ public class GameLogic : MonoBehaviour {
 	public Texture2D bombTexture;
 
 	public GameObject boom;
+
+	public static ArrayList notifications;
+	public Font font;
 	
 	AvatarScript avatarScript;
 	GenerateEnvironment genEnv;
@@ -63,24 +66,44 @@ public class GameLogic : MonoBehaviour {
 			for (int i = 0 ; i < avatarScript.getBullets () ; i++)
 				GUI.DrawTexture(new Rect(i * 55 + (numberOfBoostsLeft * 55), Screen.height - 110, bombTexture.width, bombTexture.height), bombTexture);
 
+			for (int i = 0 ; i < notifications.Count ; i++) {
+
+				GameObject go = Instantiate(new GameObject(), new Vector3(0.5f, 0.4f + (notifications.Count * 0.065f), 0.5f), Quaternion.identity) as GameObject; 
+				go.AddComponent<GUIText>();
+				go.guiText.font = font;
+				go.guiText.fontSize = 50;
+				go.guiText.alignment = TextAlignment.Center;
+				go.guiText.anchor = TextAnchor.MiddleCenter;
+				go.guiText.text = "+ " + (string) notifications[i] + "!";
+				notifications.RemoveAt(i);
+				StartCoroutine(FadeInstructions(go.guiText, false));
+			}
+
+
+
 				} else {
 			timeText.text = "";
 			boost.text = "";
 				}
 	}
 
-	IEnumerator FadeInstructions() {
+	IEnumerator FadeInstructions(GUIText text, bool repeat) {
 		for (float f = 5f; f >= 0; f -= 0.05f) {
-			Color c = instructionsText.color;
+			Color c = text.color;
 			c.a = f/5f;
-			instructionsText.color = c;
+			text.color = c;
 			yield return new WaitForSeconds(.01f);
 		}
-		StartCoroutine(FadeInstructions());
+
+		if (repeat)
+		StartCoroutine(FadeInstructions(text, true));
+		else
+			text.enabled = false;
 	}
 
 	// Use this for initialization
 	void Start () {
+		notifications = new ArrayList();
 		instructionsText.enabled = false;
 		startedPlay = true;
 		DontDestroyOnLoad (backgroundMusic);
@@ -161,7 +184,7 @@ public class GameLogic : MonoBehaviour {
 
     void pauseGame() {
 		instructionsText.enabled = true;
-		StartCoroutine(FadeInstructions());
+		StartCoroutine(FadeInstructions(instructionsText, true));
 		avatarScript.pauseGame ();
 		genEnv.EndGame ();
 		drawGUI = false;

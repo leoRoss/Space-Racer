@@ -36,6 +36,7 @@ public class HContactD : MonoBehaviour
 			Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
 			gameLogicScript.AvatarCollidedWithWeakAstroid();
 			gameLogicScript.AddHealth();
+			GameLogic.notifications.Add("HEALTH");
 		}
 		
 		Destroy (gameObject);

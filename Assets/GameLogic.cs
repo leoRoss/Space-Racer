@@ -64,7 +64,7 @@ public class GameLogic : MonoBehaviour {
 				GUI.DrawTexture(new Rect(i * 55, Screen.height - 110, boostTexture.width, boostTexture.height), boostTexture);
 
 			for (int i = 0 ; i < avatarScript.getBullets () ; i++)
-				GUI.DrawTexture(new Rect(i * 55 + (numberOfBoostsLeft * 55), Screen.height - 110, bombTexture.width, bombTexture.height), bombTexture);
+				GUI.DrawTexture(new Rect(Screen.width - 50 - (i * 50), Screen.height - 110, bombTexture.width, bombTexture.height), bombTexture);
 
 			for (int i = 0 ; i < notifications.Count ; i++) {
 

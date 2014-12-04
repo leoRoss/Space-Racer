@@ -34,7 +34,6 @@ public class BombDestroyContact : MonoBehaviour
 		if (other.tag == "Player")
 		{
 			Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
-			gameLogicScript.AvatarCollidedWithWeakAstroid();
 			aScript.AddBomb();
 			GameLogic.notifications.Add("BOMB");
 		}

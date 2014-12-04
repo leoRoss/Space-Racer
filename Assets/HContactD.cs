@@ -34,7 +34,6 @@ public class HContactD : MonoBehaviour
 		if (other.tag == "Player")
 		{
 			Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
-			gameLogicScript.AvatarCollidedWithWeakAstroid();
 			gameLogicScript.AddHealth();
 			GameLogic.notifications.Add("HEALTH");
 		}

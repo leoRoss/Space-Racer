@@ -30,7 +30,8 @@ public class GameLogic : MonoBehaviour {
 	public static bool played;
 
 	//course stuff
-	public float courseLength = 50000f;
+	private float courseRealLength = 50000f;
+	public float courseLength;
 
 	private bool drawGUI = true;
 	public static bool startedPlay = false;
@@ -103,6 +104,7 @@ public class GameLogic : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		courseLength = courseRealLength;
 		notifications = new ArrayList();
 		instructionsText.enabled = false;
 		startedPlay = true;

@@ -159,7 +159,7 @@ public class AvatarScript : MonoBehaviour {
 		stars.transform.position = getPos();
 		bigStars.transform.position = getPos();
 
-		spaceBack.transform.position = new Vector3 (0f, 0f, Mathf.Min (transform.position.z + 2800f,20050f));
+		spaceBack.transform.position = new Vector3 (0f, 0f, Mathf.Min (transform.position.z + 2800f,gameLogicScript.courseLength+50f));
 		applyMovementQuat (); //this assures any movment computed is relative to the identity Quaternion
 		
 		up = Input.GetAxis ("Vertical");

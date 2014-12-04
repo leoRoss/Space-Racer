@@ -184,6 +184,7 @@ public class AvatarScript : MonoBehaviour {
 		moveVector.y = moveVector.y*-1.0f;
 		moveVector.x = moveVector.x*-1.2f; 
 		moveTowardsCenter ();	
+		boostTimeLeft = 0f;
 	}
 	
 	public void moveTowardsCenter () {
@@ -195,6 +196,7 @@ public class AvatarScript : MonoBehaviour {
 	
 	public void AvatarCollidedWithWeakAstroid (){
 		moveVector.z = moveVector.z*0.5f; //slow down, keep going
+		boostTimeLeft = 0f;
 	}
 	
 	

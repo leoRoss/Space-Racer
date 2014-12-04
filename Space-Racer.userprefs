@@ -1,15 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GameLogic.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/HContactD.cs">
     <Files>
-      <File FileName="Assets/Scripts/AvatarScript.cs" Line="260" Column="18" />
-      <File FileName="Assets/Done/Done_Scripts/Done_DestroyByContact.cs" Line="5" Column="2" />
-      <File FileName="Assets/BombDestroyContact.cs" Line="39" Column="37" />
-      <File FileName="Assets/BoostContactD.cs" Line="44" Column="2" />
-      <File FileName="Assets/GameLogic.cs" Line="71" Column="72" />
-      <File FileName="Assets/HContactD.cs" Line="43" Column="3" />
-      <File FileName="Assets/Done_DestroyByContactStrong.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GenerateEnvironment.cs" Line="179" Column="40" />
+      <File FileName="Assets/Done/Done_Scripts/Done_DestroyByContact.cs" Line="1" Column="1" />
+      <File FileName="Assets/BombDestroyContact.cs" Line="36" Column="85" />
+      <File FileName="Assets/BoostContactD.cs" Line="36" Column="85" />
+      <File FileName="Assets/Scripts/GenerateEnvironment.cs" Line="173" Column="3" />
+      <File FileName="Assets/HContactD.cs" Line="29" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

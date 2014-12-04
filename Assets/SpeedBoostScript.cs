@@ -14,8 +14,8 @@ public class SpeedBoostScript : MonoBehaviour {
 		if (other.tag == "Player")
 		{
 			avatarS.addFreeBoostTime(2f);
-			Destroy (gameObject);
 		}
+		Destroy (gameObject);
 
 	}
 }

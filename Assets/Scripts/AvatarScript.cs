@@ -119,6 +119,11 @@ public class AvatarScript : MonoBehaviour {
 	}
 	
 	void updateBOOST() {
+
+		if (Input.GetKeyDown(KeyCode.Space)) {
+		triggerBoostDeRequest();
+		}
+
 		updateMotion(normalFwdAccel*boostFwdAccelFactor, normalSideAccel*boostSidesAccelFactor, normalUpAccel*boostSidesAccelFactor, 
 		             naturalDecelFromBoostPerSecond, turnDecelPerSecond, turnDecelPerSecond,
 		             normalFwdMaxSpeed*boostFwdMaxSpeedFactor,  normalSidesMaxSpeed*boostFwdMaxSpeedFactor, normalSidesMaxSpeed*boostFwdMaxSpeedFactor);
@@ -142,10 +147,18 @@ public class AvatarScript : MonoBehaviour {
 			boosts--;
 		}
 	}
+
+
+	void triggerBoostDeRequest() {
+		exitBOOST ();
+	//	switchToRunFSM();
+		}
 	
 	//when I hit a free boost ring
 	public void addFreeBoostTime (float time) {
 		boostTimeLeft += time;
+		if (boostTimeLeft > boostTime)
+						boostTimeLeft = boostTime;
 	}
 	
 	

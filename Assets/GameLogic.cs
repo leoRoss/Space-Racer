@@ -155,8 +155,10 @@ public class GameLogic : MonoBehaviour {
 	//use numberOfBulletsLeft to make the UI :)
 
 	public void AddHealth() {
-		health += 40;
-		healthScale = Mathf.Clamp01(health / 100.0f);
+		if (health < 100) {
+						health += 40;
+						healthScale = Mathf.Clamp01 (health / 100.0f);
+				}
 	}
 
 	void updateMyVariables () {

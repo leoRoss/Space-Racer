@@ -98,9 +98,26 @@ public class GenerateEnvironment : MonoBehaviour {
 				float randSeed = Random.Range (-1.0f, 1.0f); // So that we use a different spot on the perlin noise plane for each ring
 				float noise = Mathf.PerlinNoise((hor + radius)/(radius) + randSeed, (ver + radius)/(radius) + randSeed);
 				float offset = Random.Range (-1.0f*((obstSpace - 2*obstRockSize)/2.0f), ((obstSpace - 2*obstRockSize)/2.0f)); // So that asteroids don't line up like a grid
-				//Debug.Log (noise);
+
 				if (noise > noiseThresh) {
-					GameObject pref = randomType();
+
+					Collider[] hit = Physics.OverlapSphere (new Vector3 (hor + offset, ver + offset, z), obstRockSize/2.0f);
+					for (int i=0; i<hit.Length; i++) {
+						if (hit[i].tag == "StrongRock") {
+							Debug.Log ("Wall");
+							Vector3 newPos = Vector3.MoveTowards (new Vector3 (hor + offset, ver + offset, z), new Vector3(0f, 0f, z), obstRockSize/1.2f);
+							hor = newPos.x;
+							ver = newPos.y;
+							break;
+						}
+					}
+					/*if (Physics.OverlapSphere (new Vector3 (hor, ver, z), obstRockSize).Length > 0) { // Overlaps with a wall
+						Debug.Log (Physics.OverlapSphere (new Vector3 (hor, ver, z), obstRockSize).Length);
+						Vector3 newPos = Vector3.MoveTowards (new Vector3 (hor, ver, z), new Vector3(0f, 0f, z), obstRockSize);
+						hor = newPos.x;
+						ver = newPos.y;
+					}*/
+					GameObject pref = randomType(pointInCircle(hor, ver, radius/2.0f));
 					GameObject a = Instantiate (pref, new Vector3(hor + offset, ver + offset, z), Quaternion.identity) as GameObject;
 					if (pref!=boostring) {
 						a.transform.localScale = new Vector3(obstRockSize, obstRockSize, obstRockSize);
@@ -115,7 +132,11 @@ public class GenerateEnvironment : MonoBehaviour {
 		}
 	}
 
-	GameObject randomType () {
+	bool pointInCircle(float x, float y, float radius) {
+		return ((Mathf.Pow (x, 2) + Mathf.Pow (y, 2)) < Mathf.Pow (radius, 2));
+	}
+
+	GameObject randomType (bool includeBoost) {
 		float f = Random.Range (0f, 100f);
 		if (f > 11) {
 			if (f < 40) {
@@ -126,9 +147,21 @@ public class GenerateEnvironment : MonoBehaviour {
 			}
 			return a1;
 		}
-		if (f<3) return boostring; 
-		if (f<6) return abomb;
-		if (f<9) return aboost;
+		if (includeBoost) {
+			if (f < 3)
+				return boostring; 
+			if (f < 6)
+				return abomb;
+			if (f < 9)
+				return aboost;
+			if (f < 11)
+				return ahealth;
+		} else {
+			if (f < 4)
+				return abomb;
+			if (f < 8)
+				return aboost;
+		}
 		return ahealth;
 	}
 

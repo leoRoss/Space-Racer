@@ -8,6 +8,11 @@ public class SpeedBoostScript : MonoBehaviour {
 	{
 		avatarS = GameObject.Find ("Avatar").GetComponent<AvatarScript> ();
 	}
+
+	void Update()
+	{
+		transform.Rotate (new Vector3(0, 30, 0) * 5 * Time.deltaTime);
+	}
 	
 	void OnTriggerEnter (Collider other)
 	{

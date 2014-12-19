@@ -32,4 +32,4 @@ http://ael.gatech.edu/cs4455f14/projectgroups/jupiter-groups/
 
 Gameplay footage can be seen here!
 
-<iframe src="//player.vimeo.com/video/113820278" width="500" height="252" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/113820278">Space Racer</a> from <a href="http://vimeo.com/user8233453">Keith Cavanaugh</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+<iframe width="560" height="315" src="//www.youtube.com/embed/nQ70S5Up83U" frameborder="0" allowfullscreen></iframe>

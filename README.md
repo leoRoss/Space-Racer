@@ -1,6 +1,10 @@
 Space-Racer
 ===========
 
+Gameplay footage can be seen here!
+
+<iframe src="//player.vimeo.com/video/113820278" width="500" height="252" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/113820278">Space Racer</a> from <a href="http://vimeo.com/user8233453">Keith Cavanaugh</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
 <b>Game Idea</b>
 
 Space Racer is a time trial racing game. The avatar is a spaceship that has to avoid or destroy asteroids with bombs in space and collect powerups, such as extra boosts, extra health, extra bombs, and fly through speed boost balls to facilitate the navigation of the course.
@@ -29,7 +33,3 @@ Submissions - Sanchit
 This was our final project for CS 4455 at Georgia Tech (Video Game Design and Architecture). Created from start to finish in about a  month, earlier builds can be seen our on class webpage:
 
 http://ael.gatech.edu/cs4455f14/projectgroups/jupiter-groups/
-
-Gameplay footage can be seen here!
-
-<iframe width="560" height="315" src="//www.youtube.com/embed/nQ70S5Up83U" frameborder="0" allowfullscreen></iframe>

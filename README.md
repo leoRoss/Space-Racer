@@ -23,11 +23,17 @@ Moreover, the physics do not necessarily simulate a real-space environment. They
 <b>Group Roles</b>
 
 Script Architecture - Leo
+
 Start Screen/HUD - Keith
+
 Explosions/Effects - Keith
+
 Avatar Controls/Bomb - Leo
+
 Environment - Sanchit & Leo
+
 Collisions/Pickups - Leo & Keith
+
 Submissions - Sanchit
 
 This was our final project for CS 4455 at Georgia Tech (Video Game Design and Architecture). Created from start to finish in about a  month, earlier builds can be seen our on class webpage:

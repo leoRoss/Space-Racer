@@ -12,7 +12,7 @@ You control the ship up, down, left, right with quick response. You can use a bo
 
 The avatar is confined within an octagonal tunnel inside an asteroid cloud. Within the tunnel, are scattered asteroids and speed boost balls. The end of the tunnel is a checkered area that the avatar must reach to complete.
 
-<b>Game Feel/</b> The gameplay is fast-paced, but with very tight controls. A balance between planning ahead and quick reactions enables the player to navigate the dangerous arena. The avatar control is smooth but responds quickly to movement.
+<b>Game Feel</b> The gameplay is fast-paced, but with very tight controls. A balance between planning ahead and quick reactions enables the player to navigate the dangerous arena. The avatar control is smooth but responds quickly to movement.
 
 Moreover, the physics do not necessarily simulate a real-space environment. They resemble flight in a gravityless environment where you have a lot of acceleration available. However, there is also strong air-resistance which will quickly stop your sideways movements.
 
@@ -32,4 +32,4 @@ http://ael.gatech.edu/cs4455f14/projectgroups/jupiter-groups/
 
 Gameplay footage can be seen here!
 
-https://vimeo.com/113820278
+<iframe src="//player.vimeo.com/video/113820278" width="500" height="252" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/113820278">Space Racer</a> from <a href="http://vimeo.com/user8233453">Keith Cavanaugh</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
